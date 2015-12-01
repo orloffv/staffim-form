@@ -1,0 +1,14 @@
+<div ng-class="[{'has-error': showError}]">
+    <div class="fg-line" ng-class="{'select': options.type === 'select' && formState.edit !== false}">
+        <label class="control-label" for="{{id}}" ng-if="to.label">
+            {{to.label}}
+            {{to.required ? '*' : ''}}
+        </label>
+        <formly-transclude></formly-transclude>
+    </div>
+    <small ng-if="(form.$submitted) && showError" class="help-block">
+        <div ng-repeat="(name, message) in ::options.validation.messages" class="message">
+            {{ message(fc.$viewValue, fc.$modelValue, this)}}
+        </div>
+    </small>
+</div>

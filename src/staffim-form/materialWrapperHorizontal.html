@@ -1,0 +1,15 @@
+<dl class="dl-horizontal" ng-class="{'has-error': showError && formState.edit !== false}">
+    <dt ng-class="{'p-t-10': formState.edit !== false}">
+        {{to.label}}
+    </dt>
+    <dd>
+        <div ng-class="{'fg-line': formState.edit !== false}">
+            <formly-transclude></formly-transclude>
+        </div>
+        <small ng-messages="fc.$error" ng-if="(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false" class="help-block">
+            <div ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages" class="message">
+                {{ message(fc.$viewValue, fc.$modelValue, this)}}
+            </div>
+        </small>
+    </dd>
+</dl>
