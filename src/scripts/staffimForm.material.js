@@ -6,7 +6,7 @@
     function wrapperMaterial(formlyConfig, $templateCache, $http) {
         formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
             if (scope.formState && scope.formState.horizontal) {
-                return $http.get('/staffim-form/materialWrapperHorizontal.html', {cache: $templateCache}).then(function(response) {
+                return $http.get('/staffim-form/materialHorizontalWrapper.html', {cache: $templateCache}).then(function(response) {
                     return response.data.replace('<formly-transclude></formly-transclude>', template);
                 });
             } else {

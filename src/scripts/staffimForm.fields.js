@@ -83,5 +83,12 @@
             extends: 'select',
             templateUrl: '/staffim-form/selectAsyncSearch.html'
         });
+
+        formlyConfigProvider.setWrapper([
+            {
+                name: 'groupEdit',
+                templateUrl: '/staffim-form/groupEditWrapper.html'
+            }
+        ]);
     }
 })();

@@ -10,7 +10,7 @@
     function wrapperMaterial(formlyConfig, $templateCache, $http) {
         formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
             if (scope.formState && scope.formState.horizontal) {
-                return $http.get('/staffim-form/materialWrapperHorizontal.html', {cache: $templateCache}).then(function(response) {
+                return $http.get('/staffim-form/materialHorizontalWrapper.html', {cache: $templateCache}).then(function(response) {
                     return response.data.replace('<formly-transclude></formly-transclude>', template);
                 });
             } else {
@@ -107,6 +107,13 @@
             extends: 'select',
             templateUrl: '/staffim-form/selectAsyncSearch.html'
         });
+
+        formlyConfigProvider.setWrapper([
+            {
+                name: 'groupEdit',
+                templateUrl: '/staffim-form/groupEditWrapper.html'
+            }
+        ]);
     }
 })();
 
@@ -335,9 +342,40 @@
 angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
+  $templateCache.put('/staffim-form/groupEditWrapper.html',
+    "<div class=\"pmb-block\">\n" +
+    "    <div class=\"pmbb-header\">\n" +
+    "        <h2><i class=\"{{to.iconClass}}\"></i>{{to.label}}</h2>\n" +
+    "    </div>\n" +
+    "    <div class=\"pmbb-body p-l-30\">\n" +
+    "        <formly-transclude></formly-transclude>\n" +
+    "    </div>\n" +
+    "</div>\n"
+  );
+
+
   $templateCache.put('/staffim-form/input.html',
     "<input class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\">\n" +
     "<span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\">{{model[options.key]}}</span>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/materialHorizontalWrapper.html',
+    "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\">\n" +
+    "    <dt ng-class=\"{'p-t-10': formState.edit !== false}\">\n" +
+    "        {{to.label}}\n" +
+    "    </dt>\n" +
+    "    <dd>\n" +
+    "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
+    "            <formly-transclude></formly-transclude>\n" +
+    "        </div>\n" +
+    "        <small ng-messages=\"fc.$error\" ng-if=\"(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false\" class=\"help-block\">\n" +
+    "            <div ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
+    "                {{ message(fc.$viewValue, fc.$modelValue, this)}}\n" +
+    "            </div>\n" +
+    "        </small>\n" +
+    "    </dd>\n" +
+    "</dl>\n"
   );
 
 
@@ -356,25 +394,6 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        </div>\n" +
     "    </small>\n" +
     "</div>\n"
-  );
-
-
-  $templateCache.put('/staffim-form/materialWrapperHorizontal.html',
-    "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\">\n" +
-    "    <dt ng-class=\"{'p-t-10': formState.edit !== false}\">\n" +
-    "        {{to.label}}\n" +
-    "    </dt>\n" +
-    "    <dd>\n" +
-    "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
-    "            <formly-transclude></formly-transclude>\n" +
-    "        </div>\n" +
-    "        <small ng-messages=\"fc.$error\" ng-if=\"(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false\" class=\"help-block\">\n" +
-    "            <div ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
-    "                {{ message(fc.$viewValue, fc.$modelValue, this)}}\n" +
-    "            </div>\n" +
-    "        </small>\n" +
-    "    </dd>\n" +
-    "</dl>\n"
   );
 
 
