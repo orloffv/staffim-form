@@ -1,6 +1,6 @@
 <div ng-class="[{'has-error': showError}]">
     <div class="fg-line" ng-class="{'select': options.type === 'select' && formState.edit !== false}">
-        <label class="control-label" for="{{id}}" ng-if="to.label">
+        <label class="control-label" for="{{id}}" ng-if="to.label && formState.label !== false">
             {{to.label}}
             {{to.required ? '*' : ''}}
         </label>

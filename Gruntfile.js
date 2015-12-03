@@ -10,6 +10,7 @@ module.exports = function(grunt) {
                     'src/scripts/staffimForm.fields.js',
                     'src/scripts/staffimForm.service.js',
                     'src/scripts/staffimForm.viewEdit.js',
+                    'src/scripts/staffimForm.tableInlineEdit.js',
                     '.tmp/templates.js'
                 ],
                 dest: './dist/staffim-form.js'

@@ -1,0 +1,17 @@
+<td ng-if="true" class="inline-edit">
+    <formly-form model="model" fields="fields" options="formInstance.getFormOptions()" form="formInstance.form">
+    </formly-form>
+</td>
+<td ng-if="true" class="td-actions">
+    <div class="lv-actions actions" ng-if="!options.formState.edit" ng-click="options.formState.edit = true">
+        <a href="">
+            <i class="zmdi zmdi-edit"></i>
+        </a>
+    </div>
+    <button type="submit" class="btn btn-success m-r-5 waves-effect" ng-if="options.formState.edit" ng-click="onSubmit()">
+        <i class="zmdi zmdi-check"></i>
+    </button>
+    <button type="button" class="btn btn-default waves-effect" ng-if="options.formState.edit" ng-click="formInstance.resetModel(); options.formState.edit = false">
+        <i class="zmdi zmdi-close"></i>
+    </button>
+</td>

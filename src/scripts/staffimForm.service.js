@@ -29,6 +29,7 @@
         service.prototype.setSuccessMessage = setSuccessMessage;
         service.prototype.setErrorMessage = setErrorMessage;
         service.prototype.setModal = setModal;
+        service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
@@ -45,6 +46,17 @@
 
         function setFormOptions(formOptions) {
             this.formOptions = formOptions;
+
+            return this;
+        }
+
+        function setTableOptions() {
+            this.setFormOptions({
+                formState: {
+                    edit: false,
+                    label: false
+                }
+            });
 
             return this;
         }
@@ -185,7 +197,7 @@
         }
 
         function onSubmit() {
-            if (!this.form.$valid) {
+            if (this.form && !this.form.$valid) {
                 return false;
             }
 
@@ -193,7 +205,9 @@
         }
 
         function resetModel() {
-            this.formOptions.resetModel();
+            if (_.has(this.formOptions, 'resetModel')) {
+                this.formOptions.resetModel();
+            }
         }
 
         return service;

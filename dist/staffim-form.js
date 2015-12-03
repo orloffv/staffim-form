@@ -148,6 +148,7 @@
         service.prototype.setSuccessMessage = setSuccessMessage;
         service.prototype.setErrorMessage = setErrorMessage;
         service.prototype.setModal = setModal;
+        service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
@@ -164,6 +165,17 @@
 
         function setFormOptions(formOptions) {
             this.formOptions = formOptions;
+
+            return this;
+        }
+
+        function setTableOptions() {
+            this.setFormOptions({
+                formState: {
+                    edit: false,
+                    label: false
+                }
+            });
 
             return this;
         }
@@ -304,7 +316,7 @@
         }
 
         function onSubmit() {
-            if (!this.form.$valid) {
+            if (this.form && !this.form.$valid) {
                 return false;
             }
 
@@ -312,7 +324,9 @@
         }
 
         function resetModel() {
-            this.formOptions.resetModel();
+            if (_.has(this.formOptions, 'resetModel')) {
+                this.formOptions.resetModel();
+            }
         }
 
         return service;
@@ -341,6 +355,27 @@
                         $scope.fields = $scope.fields[0].fieldGroup;
                         $scope.formInstance.setFields($scope.fields);
                     }
+                }
+            };
+        });
+})();
+
+(function(){
+    angular.module('staffimForm')
+        .directive('sfTableInlineEdit', function() {
+            return {
+                templateUrl: '/staffim-form/tableInlineEdit.html',
+                restrict: 'A',
+                scope: {
+                    formInstance: '='
+                },
+                link: function($scope) {
+                    $scope.$watch('formInstance', function() {
+                        $scope.options = $scope.formInstance.getFormOptions();
+                        $scope.model = $scope.formInstance.getFormModel();
+                        $scope.fields = $scope.formInstance.getFields();
+                        $scope.onSubmit = $scope.formInstance.onSubmit.bind($scope.formInstance);
+                    });
                 }
             };
         });
@@ -389,7 +424,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   $templateCache.put('/staffim-form/materialWrapper.html',
     "<div ng-class=\"[{'has-error': showError}]\">\n" +
     "    <div class=\"fg-line\" ng-class=\"{'select': options.type === 'select' && formState.edit !== false}\">\n" +
-    "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label\">\n" +
+    "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label && formState.label !== false\">\n" +
     "            {{to.label}}\n" +
     "            {{to.required ? '*' : ''}}\n" +
     "        </label>\n" +
@@ -427,6 +462,27 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
     "    </ui-select-choices>\n" +
     "</ui-select>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/tableInlineEdit.html',
+    "<td ng-if=\"true\" class=\"inline-edit\">\n" +
+    "    <formly-form model=\"model\" fields=\"fields\" options=\"formInstance.getFormOptions()\" form=\"formInstance.form\">\n" +
+    "    </formly-form>\n" +
+    "</td>\n" +
+    "<td ng-if=\"true\" class=\"td-actions\">\n" +
+    "    <div class=\"lv-actions actions\" ng-if=\"!options.formState.edit\" ng-click=\"options.formState.edit = true\">\n" +
+    "        <a href=\"\">\n" +
+    "            <i class=\"zmdi zmdi-edit\"></i>\n" +
+    "        </a>\n" +
+    "    </div>\n" +
+    "    <button type=\"submit\" class=\"btn btn-success m-r-5 waves-effect\" ng-if=\"options.formState.edit\" ng-click=\"onSubmit()\">\n" +
+    "        <i class=\"zmdi zmdi-check\"></i>\n" +
+    "    </button>\n" +
+    "    <button type=\"button\" class=\"btn btn-default waves-effect\" ng-if=\"options.formState.edit\" ng-click=\"formInstance.resetModel(); options.formState.edit = false\">\n" +
+    "        <i class=\"zmdi zmdi-close\"></i>\n" +
+    "    </button>\n" +
+    "</td>\n"
   );
 
 
