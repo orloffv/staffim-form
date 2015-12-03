@@ -327,13 +327,20 @@
                 restrict: 'E',
                 scope: {
                     title: '@',
+                    iconClass: '@',
                     formInstance: '='
                 },
-                link: function(scope) {
-                    scope.options = scope.formInstance.getFormOptions();
-                    scope.model = scope.formInstance.getFormModel();
-                    scope.fields = scope.formInstance.getFields();
-                    scope.onSubmit = scope.formInstance.onSubmit.bind(scope.formInstance);
+                link: function($scope) {
+                    $scope.options = $scope.formInstance.getFormOptions();
+                    $scope.model = $scope.formInstance.getFormModel();
+                    $scope.fields = $scope.formInstance.getFields();
+                    $scope.onSubmit = $scope.formInstance.onSubmit.bind($scope.formInstance);
+                    if (_.size($scope.fields) === 1 && _.has($scope.fields[0], 'fieldGroup')) {
+                        $scope.title = $scope.fields[0].templateOptions.label;
+                        $scope.iconClass = $scope.fields[0].templateOptions.iconClass;
+                        $scope.fields = $scope.fields[0].fieldGroup;
+                        $scope.formInstance.setFields($scope.fields);
+                    }
                 }
             };
         });
@@ -432,7 +439,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   $templateCache.put('/staffim-form/viewEdit.html',
     "<div class=\"pmb-block\">\n" +
     "    <div class=\"pmbb-header\">\n" +
-    "        <h2><i class=\"zmdi zmdi-person m-r-5\"></i> {{title}}</h2>\n" +
+    "        <h2><i class=\"{{iconClass}}\"></i> {{title}}</h2>\n" +
     "        <ul class=\"actions\" ng-if=\"!options.formState.edit\">\n" +
     "            <li class=\"dropdown\" uib-dropdown>\n" +
     "                <a href=\"#\" uib-dropdown-toggle>\n" +
