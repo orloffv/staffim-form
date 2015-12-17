@@ -609,7 +609,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/tableHeaderFilter.html',
-    "<div>\n" +
+    "<div class=\"table-header-filter\">\n" +
     "    <formly-form model=\"model\" fields=\"fields\" options=\"formInstance.getFormOptions()\" form=\"formInstance.form\">\n" +
     "    </formly-form>\n" +
     "</div>\n"
