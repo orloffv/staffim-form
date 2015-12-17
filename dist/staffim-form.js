@@ -381,6 +381,38 @@
         });
 })();
 
+'use strict';
+(function() {
+    angular.module('staffimForm')
+        .directive('sfTableHeaderFilter', function() {
+            return {
+                restrict: 'E',
+                templateUrl: '/staffim-form/tableHeaderFilter.html',
+                replace: true,
+                scope: {
+                    params: '=',
+                    formInstance: '=formInstance'
+                },
+                controller: ['$scope', function($scope) {
+                    $scope.options = $scope.formInstance.getFormOptions();
+                    $scope.model = $scope.formInstance.getFormModel();
+                    $scope.fields = $scope.formInstance.getFields();
+                    $scope.$watch('model', function(data) {
+                        _.each(data, function(value, key) {
+                            if (value) {
+                                if (value !== $scope.params.filter()[key]) {
+                                    $scope.params.filter()[key] = value;
+                                }
+                            } else {
+                                delete $scope.params.filter()[key];
+                            }
+                        });
+                    }, true);
+                }]
+            };
+        });
+})();
+
 angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
@@ -462,6 +494,14 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
     "    </ui-select-choices>\n" +
     "</ui-select>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/tableHeaderFilter.html',
+    "<div>\n" +
+    "    <formly-form model=\"model\" fields=\"fields\" options=\"formInstance.getFormOptions()\" form=\"formInstance.form\">\n" +
+    "    </formly-form>\n" +
+    "</div>\n"
   );
 
 
