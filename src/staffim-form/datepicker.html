@@ -1,0 +1,9 @@
+<input type="text"
+    id="{{::id}}"
+    name="{{::id}}"
+    ng-model="model[options.key]"
+    class="form-control"
+    ng-click="datepicker.open($event)"
+    datepicker-popup="{{to.datepickerOptions.format}}"
+    is-open="datepicker.opened"
+    datepicker-options="to.datepickerOptions" />
