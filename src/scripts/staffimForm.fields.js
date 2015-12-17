@@ -107,7 +107,7 @@
             'format-month-title',
             'year-range',
             'shortcut-propagation',
-            'datepicker-popup',
+            'uib-datepicker-popup',
             'show-button-bar',
             'current-text',
             'clear-text',
