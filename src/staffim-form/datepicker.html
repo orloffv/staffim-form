@@ -1,9 +1,14 @@
-<input type="text"
-    id="{{::id}}"
-    name="{{::id}}"
-    ng-model="model[options.key]"
-    class="form-control"
-    ng-click="datepicker.open($event)"
-    datepicker-popup="{{to.datepickerOptions.format}}"
-    is-open="datepicker.opened"
-    datepicker-options="to.datepickerOptions" />
+<div class="date-picker dp-blue" ng-class="{ 'is-opened': datepicker.opened }">
+    <div class="fg-line" ng-class="{ 'fg-toggled': datepicker.opened }">
+        <input
+            id="{{::id}}"
+            name="{{::id}}"
+            ng-model="model[options.key]"
+            class="form-control"
+            ng-click="datepicker.open($event)"
+            datepicker-popup="{{to.datepickerOptions.format}}"
+            is-open="datepicker.opened"
+            datepicker-options="to.datepickerOptions"
+            type="text"/>
+    </div>
+</div>

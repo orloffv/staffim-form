@@ -479,15 +479,20 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('/staffim-form/datepicker.html',
-    "<input type=\"text\"\n" +
-    "    id=\"{{::id}}\"\n" +
-    "    name=\"{{::id}}\"\n" +
-    "    ng-model=\"model[options.key]\"\n" +
-    "    class=\"form-control\"\n" +
-    "    ng-click=\"datepicker.open($event)\"\n" +
-    "    datepicker-popup=\"{{to.datepickerOptions.format}}\"\n" +
-    "    is-open=\"datepicker.opened\"\n" +
-    "    datepicker-options=\"to.datepickerOptions\" />\n"
+    "<div class=\"date-picker dp-blue\" ng-class=\"{ 'is-opened': datepicker.opened }\">\n" +
+    "    <div class=\"fg-line\" ng-class=\"{ 'fg-toggled': datepicker.opened }\">\n" +
+    "        <input\n" +
+    "            id=\"{{::id}}\"\n" +
+    "            name=\"{{::id}}\"\n" +
+    "            ng-model=\"model[options.key]\"\n" +
+    "            class=\"form-control\"\n" +
+    "            ng-click=\"datepicker.open($event)\"\n" +
+    "            datepicker-popup=\"{{to.datepickerOptions.format}}\"\n" +
+    "            is-open=\"datepicker.opened\"\n" +
+    "            datepicker-options=\"to.datepickerOptions\"\n" +
+    "            type=\"text\"/>\n" +
+    "    </div>\n" +
+    "</div>\n"
   );
 
 
