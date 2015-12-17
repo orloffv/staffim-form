@@ -15,5 +15,15 @@
                 });
             }
         });
+
+        formlyConfig.templateManipulators.preWrapper.push(function(template, options) {
+            if (!options.templateOptions.addonLeft && !options.templateOptions.addonRight) {
+                return template;
+            }
+
+            return $http.get('/staffim-form/addons.html', {cache: $templateCache}).then(function(response) {
+                return response.data.replace('<formly-transclude></formly-transclude>', template);
+            });
+        });
     }
 })();
