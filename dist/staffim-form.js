@@ -487,7 +487,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "            ng-model=\"model[options.key]\"\n" +
     "            class=\"form-control\"\n" +
     "            ng-click=\"datepicker.open($event)\"\n" +
-    "            datepicker-popup=\"{{to.datepickerOptions.format}}\"\n" +
+    "            uib-datepicker-popup=\"{{to.datepickerOptions.format}}\"\n" +
     "            is-open=\"datepicker.opened\"\n" +
     "            datepicker-options=\"to.datepickerOptions\"\n" +
     "            type=\"text\"/>\n" +
