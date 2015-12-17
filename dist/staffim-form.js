@@ -34,6 +34,7 @@
 
 (function(){
     angular.module('staffimForm')
+        .run(datepickerConfig)
         .config(materialFields);
 
     materialFields.$inject = ['formlyConfigProvider'];
@@ -173,7 +174,9 @@
                 ngModelAttrs: ngModelAttrs,
                 templateOptions: {
                     datepickerOptions: {
+                        showWeeks: false,
                         format: 'MM.dd.yyyy',
+                        formatDayTitle: 'MMM yyyy',
                         initDate: new Date()
                     }
                 }
@@ -186,6 +189,13 @@
                 };
             }]
         });
+    }
+
+    datepickerConfig.$inject = ['uibDatepickerPopupConfig'];
+    function datepickerConfig(uibDatepickerPopupConfig) {
+        uibDatepickerPopupConfig.currentText = 'Сегодня';
+        uibDatepickerPopupConfig.clearText = 'Очистить';
+        uibDatepickerPopupConfig.closeText = 'Закрыть';
     }
 })();
 
