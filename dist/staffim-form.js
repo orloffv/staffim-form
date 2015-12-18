@@ -504,7 +504,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "         ng-if=\"to.addonLeft\"\n" +
     "         ng-style=\"{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}\"\n" +
     "         ng-click=\"to.addonLeft.onClick(options, this)\">\n" +
-    "        <i class=\"{{to.addonLeft.class}}\" ng-if=\"to.addonLeft.class\"></i>\n" +
+    "        <i class=\"{{to.addonLeft.className}}\" ng-if=\"to.addonLeft.className\"></i>\n" +
     "        <span ng-if=\"to.addonLeft.text\">{{to.addonLeft.text}}</span>\n" +
     "    </div>\n" +
     "    <formly-transclude></formly-transclude>\n" +
@@ -512,7 +512,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "         ng-if=\"to.addonRight\"\n" +
     "         ng-style=\"{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}\"\n" +
     "         ng-click=\"to.addonRight.onClick(options, this)\">\n" +
-    "        <i class=\"{{to.addonRight.class}}\" ng-if=\"to.addonRight.class\"></i>\n" +
+    "        <i class=\"{{to.addonRight.className}}\" ng-if=\"to.addonRight.className\"></i>\n" +
     "        <span ng-if=\"to.addonRight.text\">{{to.addonRight.text}}</span>\n" +
     "    </div>\n" +
     "</div>\n"
