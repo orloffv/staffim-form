@@ -1,0 +1,17 @@
+{
+  "name": "staffim-form",
+  "main": "./dist/staffim-form.js",
+  "ignore": [
+    "src",
+    ".gitignore",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular-formly": "~7.3.2",
+    "ui-select": "angular-ui-select#~0.13.2",
+    "angular-sanitize": "~1.4.7",
+    "api-check": "~7.5.5",
+    "angular": "latest"
+  }
+}

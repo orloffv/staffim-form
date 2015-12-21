@@ -1,3 +1,3 @@
 (function(){
-    angular.module('staffimForm', []);
+    angular.module('staffimForm', ['formly', 'ngSanitize', 'ui.select']);
 })();

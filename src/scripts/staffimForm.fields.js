@@ -1,4 +1,4 @@
-(function(){
+(function() {
     angular.module('staffimForm')
         .run(datepickerConfig)
         .config(materialFields);

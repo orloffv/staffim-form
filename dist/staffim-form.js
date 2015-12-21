@@ -1,5 +1,5 @@
 (function(){
-    angular.module('staffimForm', []);
+    angular.module('staffimForm', ['formly', 'ngSanitize', 'ui.select']);
 })();
 
 (function(){
@@ -32,7 +32,7 @@
     }
 })();
 
-(function(){
+(function() {
     angular.module('staffimForm')
         .run(datepickerConfig)
         .config(materialFields);
@@ -232,6 +232,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setEditVerticalOptions = setEditVerticalOptions;
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
         service.prototype.setPatchFields = setPatchFields;
@@ -278,6 +279,16 @@
                 formState: {
                     edit: true,
                     horizontal: true
+                }
+            });
+
+            return this;
+        }
+
+        function setEditVerticalOptions() {
+            this.setFormOptions({
+                formState: {
+                    edit: true
                 }
             });
 
