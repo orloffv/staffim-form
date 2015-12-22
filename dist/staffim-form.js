@@ -1,5 +1,6 @@
 (function(){
     angular.module('staffimForm', ['formly', 'ngSanitize', 'ui.select']);
+    angular.module('staffimForm.wysiwyg', ['formly', 'summernote']);
 })();
 
 (function(){
@@ -506,6 +507,31 @@
         });
 })();
 
+(function() {
+    angular.module('staffimForm.wysiwyg')
+        .config(wysiwygField);
+
+    wysiwygField.$inject = ['formlyConfigProvider'];
+    function wysiwygField(formlyConfigProvider) {
+        formlyConfigProvider.setType({
+            name: 'wysiwyg',
+            templateUrl: '/staffim-form/wysiwyg.html',
+            defaultOptions: {
+                modelOptions: {
+                    //updateOn: 'submit'
+                },
+                className: 'form-group'
+            },
+            link: function($scope) {
+                $scope.summernoteOptions = {
+                    height: $scope.options.templateOptions.height || 300,
+                    placeholder: $scope.options.templateOptions.placeholder
+                };
+            }
+        });
+    }
+})();
+
 angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   'use strict';
 
@@ -695,6 +721,12 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        </form>\n" +
     "    </div>\n" +
     "</div>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/wysiwyg.html',
+    "<summernote ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\" config=\"summernoteOptions\"></summernote>\n" +
+    "<span ng-if=\"formState.edit === false\">{{model[options.key]}}</span>\n"
   );
 
 }]);

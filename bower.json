@@ -12,6 +12,7 @@
     "ui-select": "angular-ui-select#~0.13.2",
     "angular-sanitize": "~1.4.7",
     "api-check": "~7.5.5",
+    "angular-summernote": "0.7.0",
     "angular": "latest"
   }
 }
