@@ -4,7 +4,12 @@
     </dt>
     <dd>
         <div ng-class="{'fg-line': formState.edit !== false}">
-            <formly-transclude></formly-transclude>
+            <div ng-if="formState.edit !== false">
+                <formly-transclude></formly-transclude>
+            </div>
+            <span ng-if="formState.edit === false" ng-class="options.templateOptions.viewClassName"
+                su-compile="options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
+            </span>
         </div>
         <small ng-messages="fc.$error" ng-if="(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false" class="help-block">
             <div ng-message="{{::name}}" ng-repeat="(name, message) in ::options.validation.messages" class="message">

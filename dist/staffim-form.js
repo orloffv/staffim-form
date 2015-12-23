@@ -593,8 +593,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/input.html',
-    "<input class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\">\n" +
-    "<span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\">{{model[options.key]}}</span>\n"
+    "<input class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\">\n"
   );
 
 
@@ -605,7 +604,12 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    </dt>\n" +
     "    <dd>\n" +
     "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
-    "            <formly-transclude></formly-transclude>\n" +
+    "            <div ng-if=\"formState.edit !== false\">\n" +
+    "                <formly-transclude></formly-transclude>\n" +
+    "            </div>\n" +
+    "            <span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\"\n" +
+    "                su-compile=\"options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
+    "            </span>\n" +
     "        </div>\n" +
     "        <small ng-messages=\"fc.$error\" ng-if=\"(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false\" class=\"help-block\">\n" +
     "            <div ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
@@ -624,7 +628,12 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "            {{to.label}}\n" +
     "            {{to.required ? '*' : ''}}\n" +
     "        </label>\n" +
-    "        <formly-transclude></formly-transclude>\n" +
+    "        <div ng-if=\"formState.edit !== false\">\n" +
+    "            <formly-transclude></formly-transclude>\n" +
+    "        </div>\n" +
+    "        <span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\"\n" +
+    "            su-compile=\"options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
+    "        </span>\n" +
     "    </div>\n" +
     "    <small ng-if=\"(form.$submitted) && showError\" class=\"help-block\">\n" +
     "        <div ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
@@ -636,8 +645,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/select.html',
-    "<select class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\"></select>\n" +
-    "<span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\">{{getViewValue()}}</span>\n"
+    "<select class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\"></select>\n"
   );
 
 
@@ -691,8 +699,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/textarea.html',
-    "<textarea class=\"form-control\" ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\"></textarea>\n" +
-    "<span ng-if=\"formState.edit === false\">{{model[options.key]}}</span>\n"
+    "<textarea class=\"form-control\" ng-model=\"model[options.key]\"></textarea>\n"
   );
 
 
@@ -731,8 +738,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/wysiwyg.html',
-    "<summernote ng-model=\"model[options.key]\" ng-if=\"formState.edit !== false\" config=\"summernoteOptions\"></summernote>\n" +
-    "<span ng-if=\"formState.edit === false\">{{model[options.key]}}</span>\n"
+    "<summernote ng-model=\"model[options.key]\" config=\"summernoteOptions\"></summernote>\n"
   );
 
 }]);
