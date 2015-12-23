@@ -1,5 +1,5 @@
 (function(){
-    angular.module('staffimForm', ['formly', 'ngSanitize', 'ui.select']);
+    angular.module('staffimForm', ['staffimUtils', 'formly', 'ngSanitize', 'ui.select']);
     angular.module('staffimForm.wysiwyg', ['formly', 'summernote']);
 })();
 
@@ -36,10 +36,10 @@
 (function() {
     angular.module('staffimForm')
         .run(datepickerConfig)
-        .config(materialFields);
+        .run(materialFields);
 
-    materialFields.$inject = ['formlyConfigProvider'];
-    function materialFields(formlyConfigProvider) {
+    materialFields.$inject = ['formlyConfig', 'SUFormatterDate'];
+    function materialFields(formlyConfig, SUFormatterDate) {
         function _defineProperty(obj, key, value) {
             if (key in obj) {
                 Object.defineProperty(obj, key, {value: value, enumerable: true, configurable: true, writable: true});
@@ -50,7 +50,7 @@
             return obj;
         }
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'input',
             templateUrl: '/staffim-form/input.html',
             defaultOptions: {
@@ -61,7 +61,7 @@
             }
         });
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'textarea',
             templateUrl: '/staffim-form/textarea.html',
             defaultOptions: {
@@ -76,7 +76,7 @@
             }
         });
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'select',
             templateUrl: '/staffim-form/select.html',
             defaultOptions: function defaultOptions(options) {
@@ -108,19 +108,19 @@
             }
         });
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'select-multiple',
             extends: 'select',
             templateUrl: '/staffim-form/selectMultiple.html'
         });
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'select-async-search',
             extends: 'select',
             templateUrl: '/staffim-form/selectAsyncSearch.html'
         });
 
-        formlyConfigProvider.setWrapper([
+        formlyConfig.setWrapper([
             {
                 name: 'groupEdit',
                 templateUrl: '/staffim-form/groupEditWrapper.html'
@@ -168,7 +168,7 @@
             ngModelAttrs[_.camelcase(binding)] = {bound: binding};
         });
 
-        formlyConfigProvider.setType({
+        formlyConfig.setType({
             name: 'datepicker',
             templateUrl: '/staffim-form/datepicker.html',
             defaultOptions: {
@@ -180,7 +180,13 @@
                         formatDayTitle: 'MMM yyyy',
                         initDate: new Date()
                     }
-                }
+                },
+                parsers: [function(value) {
+                    return SUFormatterDate.parser(value);
+                }],
+                formatters: [function(value) {
+                    return SUFormatterDate.formatter(value);
+                }]
             },
             controller: ['$scope', function ($scope) {
                 $scope.datepicker = {};
