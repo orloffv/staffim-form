@@ -35,14 +35,27 @@
 
 (function() {
     angular.module('staffimForm')
+        .config(formlyConfig)
         .run(datepickerConfig)
         .run(formlyValidation)
         .run(materialFields);
 
+    formlyConfig.$inject = ['formlyConfigProvider', 'CONFIG'];
+    function formlyConfig(formlyConfigProvider, CONFIG) {
+        if (CONFIG.debug === false) {
+            formlyConfigProvider.disableWarnings = true;
+            if (apiCheck !== 'undefined') {
+                apiCheck.globalConfig.disabled = true;
+            }
+        }
+
+        formlyConfigProvider.extras.removeChromeAutoComplete = true;
+        formlyConfigProvider.extras.errorExistsAndShouldBeVisibleExpression = 'form.$submitted';
+    }
+
     formlyValidation.$inject = ['formlyConfig', 'formlyValidationMessages'];
     function formlyValidation(formlyConfig, formlyValidationMessages) {
         formlyConfig.extras.errorExistsAndShouldBeVisibleExpression = 'form.$submitted';
-        formlyConfig.extras.removeChromeAutoComplete = true;
         formlyValidationMessages.addStringMessage('require', 'Обязательно для заполнения');
     }
 
