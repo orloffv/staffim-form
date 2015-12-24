@@ -1,7 +1,15 @@
 (function() {
     angular.module('staffimForm')
         .run(datepickerConfig)
+        .run(formlyValidation)
         .run(materialFields);
+
+    formlyValidation.$inject = ['formlyConfig', 'formlyValidationMessages'];
+    function formlyValidation(formlyConfig, formlyValidationMessages) {
+        formlyConfig.extras.errorExistsAndShouldBeVisibleExpression = 'form.$submitted';
+        formlyConfig.extras.removeChromeAutoComplete = true;
+        formlyValidationMessages.addStringMessage('require', 'Обязательно для заполнения');
+    }
 
     materialFields.$inject = ['formlyConfig', 'SUFormatterDate'];
     function materialFields(formlyConfig, SUFormatterDate) {
