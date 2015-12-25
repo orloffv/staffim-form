@@ -98,6 +98,22 @@
         });
 
         formlyConfig.setType({
+            name: 'switch',
+            templateUrl: '/staffim-form/switch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.falseValue)) {
+                    $scope.to.falseValue = false;
+                }
+                if (angular.isUndefined($scope.to.trueValue)) {
+                    $scope.to.trueValue = true;
+                }
+                if (angular.isUndefined) {
+                    $scope.model[$scope.options.key] = $scope.to.falseValue;
+                }
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select',
             templateUrl: '/staffim-form/select.html',
             defaultOptions: function defaultOptions(options) {
@@ -634,7 +650,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        </div>\n" +
     "        <small ng-messages=\"fc.$error\" ng-if=\"(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false\" class=\"help-block\">\n" +
     "            <div ng-message=\"{{::name}}\" ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
-    "                {{ message(fc.$viewValue, fc.$modelValue, this)}}\n" +
+    "                {{message(fc.$viewValue, fc.$modelValue, this)}}\n" +
     "            </div>\n" +
     "        </small>\n" +
     "    </dd>\n" +
@@ -658,7 +674,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    </div>\n" +
     "    <small ng-if=\"(form.$submitted) && showError\" class=\"help-block\">\n" +
     "        <div ng-repeat=\"(name, message) in ::options.validation.messages\" class=\"message\">\n" +
-    "            {{ message(fc.$viewValue, fc.$modelValue, this)}}\n" +
+    "            {{message(fc.$viewValue, fc.$modelValue, this)}}\n" +
     "        </div>\n" +
     "    </small>\n" +
     "</div>\n"
@@ -687,6 +703,17 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
     "    </ui-select-choices>\n" +
     "</ui-select>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/switch.html',
+    "<div class=\"toggle-switch\">\n" +
+    "    <input ng-model=\"model[options.key]\" type=\"checkbox\" hidden=\"hidden\"\n" +
+    "        ng-true-value=\"'{{::to.trueValue}}'\"\n" +
+    "        ng-false-value=\"'{{::to.falseValue}}'\">\n" +
+    "    <label for=\"{{id}}\" class=\"ts-helper\"></label>\n" +
+    "    <label for=\"{{id}}\" class=\"ts-label m-l-5\">{{to.labelInfo}}</label>\n" +
+    "</div>\n"
   );
 
 

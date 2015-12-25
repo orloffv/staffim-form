@@ -63,6 +63,22 @@
         });
 
         formlyConfig.setType({
+            name: 'switch',
+            templateUrl: '/staffim-form/switch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.falseValue)) {
+                    $scope.to.falseValue = false;
+                }
+                if (angular.isUndefined($scope.to.trueValue)) {
+                    $scope.to.trueValue = true;
+                }
+                if (angular.isUndefined) {
+                    $scope.model[$scope.options.key] = $scope.to.falseValue;
+                }
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select',
             templateUrl: '/staffim-form/select.html',
             defaultOptions: function defaultOptions(options) {

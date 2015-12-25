@@ -13,7 +13,7 @@
     </div>
     <small ng-if="(form.$submitted) && showError" class="help-block">
         <div ng-repeat="(name, message) in ::options.validation.messages" class="message">
-            {{ message(fc.$viewValue, fc.$modelValue, this)}}
+            {{message(fc.$viewValue, fc.$modelValue, this)}}
         </div>
     </small>
 </div>
