@@ -412,7 +412,7 @@
         }
 
         function patchRemove() {
-            this.submit('remove');
+            return this.submit('remove');
         }
 
         function submit(patchAction) {
@@ -457,12 +457,12 @@
                 return false;
             }
 
-            this.submit();
+            return this.submit();
         }
 
         function resetModel() {
             if (_.has(this.formOptions, 'resetModel')) {
-                this.formOptions.resetModel();
+                return this.formOptions.resetModel();
             }
         }
 
