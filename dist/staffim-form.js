@@ -639,7 +639,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/materialHorizontalWrapper.html',
-    "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\">\n" +
+    "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\" ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
     "    <dt ng-class=\"{'p-t-10': formState.edit !== false}\">\n" +
     "        {{to.label}}\n" +
     "        <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +
@@ -667,7 +667,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/materialWrapper.html',
-    "<div ng-class=\"[{'has-error': showError}]\">\n" +
+    "<div ng-class=\"[{'has-error': showError}]\" ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
     "    <div class=\"fg-line\" ng-class=\"{'select': options.type === 'select' && formState.edit !== false}\">\n" +
     "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label && formState.label !== false\">\n" +
     "            {{to.label}}\n" +
