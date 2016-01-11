@@ -6,7 +6,6 @@
     function SFService(toastr, $q) {
         /* jshint validthis: true */
         var service = function(scope) {
-            this.scope = scope;
             this.formOptions = {};
             this.originalModel = {};
             this.formModel = {};
@@ -201,6 +200,11 @@
                     return data;
                 })
                 .catch(function() {
+                    /*
+                    var translator = new SRErrorTranslator(that.formModel);
+                    var errors = translator.parseResponse(errorResponse);
+                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
+                    */
                     toastr.error(that.errorMessage);
 
                     return $q.reject();

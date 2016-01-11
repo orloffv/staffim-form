@@ -2,13 +2,16 @@
     <div class="fg-line" ng-class="{'select': options.type === 'select' && formState.edit !== false}">
         <label class="control-label" for="{{id}}" ng-if="to.label && formState.label !== false">
             {{to.label}}
-            {{to.required ? '*' : ''}}
+            <span ng-if="!to.required && formState.edit !== false && !to.hideRequired">
+                <br>
+                <small class="required">(не обязательно)</small>
+            </span>
         </label>
         <div ng-if="formState.edit !== false">
             <formly-transclude></formly-transclude>
         </div>
-        <span ng-if="formState.edit === false" ng-class="options.templateOptions.viewClassName"
-            su-compile="options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
+        <span ng-if="formState.edit === false" ng-class="to.viewClassName"
+            su-compile="to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
         </span>
     </div>
     <small ng-if="(form.$submitted) && showError" class="help-block">

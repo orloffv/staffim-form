@@ -251,7 +251,6 @@
     function SFService(toastr, $q) {
         /* jshint validthis: true */
         var service = function(scope) {
-            this.scope = scope;
             this.formOptions = {};
             this.originalModel = {};
             this.formModel = {};
@@ -446,6 +445,11 @@
                     return data;
                 })
                 .catch(function() {
+                    /*
+                    var translator = new SRErrorTranslator(that.formModel);
+                    var errors = translator.parseResponse(errorResponse);
+                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
+                    */
                     toastr.error(that.errorMessage);
 
                     return $q.reject();
@@ -630,7 +634,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/input.html',
-    "<input class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\">\n"
+    "<input class=\"form-control\" ng-class=\"to.className\" ng-model=\"model[options.key]\">\n"
   );
 
 
@@ -638,14 +642,18 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\">\n" +
     "    <dt ng-class=\"{'p-t-10': formState.edit !== false}\">\n" +
     "        {{to.label}}\n" +
+    "        <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +
+    "            <br>\n" +
+    "            <small class=\"required\">(не обязательно)</small>\n" +
+    "        </span>\n" +
     "    </dt>\n" +
     "    <dd>\n" +
     "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
     "            <div ng-if=\"formState.edit !== false\">\n" +
     "                <formly-transclude></formly-transclude>\n" +
     "            </div>\n" +
-    "            <span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\"\n" +
-    "                su-compile=\"options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
+    "            <span ng-if=\"formState.edit === false\" ng-class=\"to.viewClassName\"\n" +
+    "                su-compile=\"to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
     "            </span>\n" +
     "        </div>\n" +
     "        <small ng-messages=\"fc.$error\" ng-if=\"(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false\" class=\"help-block\">\n" +
@@ -663,13 +671,16 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    <div class=\"fg-line\" ng-class=\"{'select': options.type === 'select' && formState.edit !== false}\">\n" +
     "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label && formState.label !== false\">\n" +
     "            {{to.label}}\n" +
-    "            {{to.required ? '*' : ''}}\n" +
+    "            <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +
+    "                <br>\n" +
+    "                <small class=\"required\">(не обязательно)</small>\n" +
+    "            </span>\n" +
     "        </label>\n" +
     "        <div ng-if=\"formState.edit !== false\">\n" +
     "            <formly-transclude></formly-transclude>\n" +
     "        </div>\n" +
-    "        <span ng-if=\"formState.edit === false\" ng-class=\"options.templateOptions.viewClassName\"\n" +
-    "            su-compile=\"options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
+    "        <span ng-if=\"formState.edit === false\" ng-class=\"to.viewClassName\"\n" +
+    "            su-compile=\"to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
     "        </span>\n" +
     "    </div>\n" +
     "    <small ng-if=\"(form.$submitted) && showError\" class=\"help-block\">\n" +
@@ -682,7 +693,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/select.html',
-    "<select class=\"form-control\" ng-class=\"options.templateOptions.className\" ng-model=\"model[options.key]\"></select>\n"
+    "<select class=\"form-control\" ng-class=\"to.className\" ng-model=\"model[options.key]\"></select>\n"
   );
 
 

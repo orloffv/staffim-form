@@ -1,14 +1,18 @@
 <dl class="dl-horizontal" ng-class="{'has-error': showError && formState.edit !== false}">
     <dt ng-class="{'p-t-10': formState.edit !== false}">
         {{to.label}}
+        <span ng-if="!to.required && formState.edit !== false && !to.hideRequired">
+            <br>
+            <small class="required">(не обязательно)</small>
+        </span>
     </dt>
     <dd>
         <div ng-class="{'fg-line': formState.edit !== false}">
             <div ng-if="formState.edit !== false">
                 <formly-transclude></formly-transclude>
             </div>
-            <span ng-if="formState.edit === false" ng-class="options.templateOptions.viewClassName"
-                su-compile="options.templateOptions.viewFormatter ? (options.templateOptions.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
+            <span ng-if="formState.edit === false" ng-class="to.viewClassName"
+                su-compile="to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
             </span>
         </div>
         <small ng-messages="fc.$error" ng-if="(form.$submitted || options.formControl.$touched) && showError && formState.edit !== false" class="help-block">
