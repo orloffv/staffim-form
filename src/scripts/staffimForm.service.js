@@ -5,12 +5,11 @@
     SFService.$inject = ['toastr', '$q'];
     function SFService(toastr, $q) {
         /* jshint validthis: true */
-        var service = function(scope) {
+        var service = function() {
             this.formOptions = {};
             this.originalModel = {};
             this.formModel = {};
-            this.formName = _.uniqueId('form');
-            this.form = scope[this.formName];
+            this.form = null;
             this.fields = [];
             this.successMessage = null;
             this.errorMessage = null;
