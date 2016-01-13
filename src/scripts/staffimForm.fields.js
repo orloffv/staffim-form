@@ -113,13 +113,23 @@
         formlyConfig.setType({
             name: 'select-multiple',
             extends: 'select',
-            templateUrl: '/staffim-form/selectMultiple.html'
+            templateUrl: '/staffim-form/selectMultiple.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.allowClear)) {
+                    $scope.to.allowClear = true;
+                }
+            }
         });
 
         formlyConfig.setType({
             name: 'select-async-search',
             extends: 'select',
-            templateUrl: '/staffim-form/selectAsyncSearch.html'
+            templateUrl: '/staffim-form/selectAsyncSearch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.allowClear)) {
+                    $scope.to.allowClear = true;
+                }
+            }
         });
 
         formlyConfig.setWrapper([
