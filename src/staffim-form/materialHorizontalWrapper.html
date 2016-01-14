@@ -1,7 +1,8 @@
-<dl class="dl-horizontal" ng-class="{'has-error': showError && formState.edit !== false}" ng-if="to.onlyView !== true || formState.edit === false">
+<dl ng-class="{'has-error': showError && formState.edit !== false, 'dl-horizontal': formState.horizontalClass !== false}"
+    ng-if="to.onlyView !== true || formState.edit === false">
     <dt ng-class="{'p-t-10': formState.edit !== false}">
         {{to.label}}
-        <span ng-if="!to.required && formState.edit !== false && !to.hideRequired">
+        <span ng-if="!to.required && formState.edit !== false && !to.hideRequired && to.label">
             <br>
             <small class="required">(не обязательно)</small>
         </span>

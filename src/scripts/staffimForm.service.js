@@ -29,6 +29,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setViewWithoutClassOptions = setViewWithoutClassOptions;
         service.prototype.setEditVerticalOptions = setEditVerticalOptions;
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
@@ -65,6 +66,18 @@
                 formState: {
                     edit: false,
                     horizontal: true
+                }
+            });
+
+            return this;
+        }
+
+        function setViewWithoutClassOptions() {
+            this.setFormOptions({
+                formState: {
+                    edit: false,
+                    horizontal: true,
+                    horizontalClass: false
                 }
             });
 

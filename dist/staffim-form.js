@@ -295,6 +295,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setViewWithoutClassOptions = setViewWithoutClassOptions;
         service.prototype.setEditVerticalOptions = setEditVerticalOptions;
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
@@ -331,6 +332,18 @@
                 formState: {
                     edit: false,
                     horizontal: true
+                }
+            });
+
+            return this;
+        }
+
+        function setViewWithoutClassOptions() {
+            this.setFormOptions({
+                formState: {
+                    edit: false,
+                    horizontal: true,
+                    horizontalClass: false
                 }
             });
 
@@ -659,10 +672,11 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/materialHorizontalWrapper.html',
-    "<dl class=\"dl-horizontal\" ng-class=\"{'has-error': showError && formState.edit !== false}\" ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
+    "<dl ng-class=\"{'has-error': showError && formState.edit !== false, 'dl-horizontal': formState.horizontalClass !== false}\"\n" +
+    "    ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
     "    <dt ng-class=\"{'p-t-10': formState.edit !== false}\">\n" +
     "        {{to.label}}\n" +
-    "        <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +
+    "        <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired && to.label\">\n" +
     "            <br>\n" +
     "            <small class=\"required\">(не обязательно)</small>\n" +
     "        </span>\n" +
