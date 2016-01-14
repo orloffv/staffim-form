@@ -132,6 +132,17 @@
             }
         });
 
+        formlyConfig.setType({
+            name: 'select-multiple-async-search',
+            extends: 'select',
+            templateUrl: '/staffim-form/selectMultipleAsyncSearch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.allowClear)) {
+                    $scope.to.allowClear = true;
+                }
+            }
+        });
+
         formlyConfig.setWrapper([
             {
                 name: 'groupEdit',

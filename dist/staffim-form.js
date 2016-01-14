@@ -167,6 +167,17 @@
             }
         });
 
+        formlyConfig.setType({
+            name: 'select-multiple-async-search',
+            extends: 'select',
+            templateUrl: '/staffim-form/selectMultipleAsyncSearch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.allowClear)) {
+                    $scope.to.allowClear = true;
+                }
+            }
+        });
+
         formlyConfig.setWrapper([
             {
                 name: 'groupEdit',
@@ -708,7 +719,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('/staffim-form/selectAsyncSearch.html',
     "<ui-select data-ng-model=\"model[options.key]\" data-required=\"{{to.required}}\" data-disabled=\"{{to.disabled}}\" theme=\"bootstrap\">\n" +
-    "    <ui-select-match placeholder=\"{{to.placeholder}}\" allow-clear=\"{{to.allowClear}}\">{{$select.selected[to.labelProp]}}</ui-select-match>\n" +
+    "    <ui-select-match placeholder=\"{{to.placeholder}}\" allow-clear=\"true\">{{$select.selected[to.labelProp]}}</ui-select-match>\n" +
     "    <ui-select-choices repeat=\"option[to.valueProp] as option in to.options | filter: $select.search\" data-refresh=\"to.refresh($select.search, options)\" data-refresh-delay=\"{{to.refreshDelay}}\">\n" +
     "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
     "    </ui-select-choices>\n" +
@@ -720,6 +731,16 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "<ui-select multiple data-ng-model=\"model[options.key]\" data-required=\"{{to.required}}\" data-disabled=\"{{to.disabled}}\" theme=\"bootstrap\">\n" +
     "    <ui-select-match placeholder=\"{{to.placeholder}}\" allow-clear=\"{{to.allowClear}}\">{{$item[to.labelProp]}}</ui-select-match>\n" +
     "    <ui-select-choices repeat=\"option[to.valueProp] as option in to.options | filter: $select.search\">\n" +
+    "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
+    "    </ui-select-choices>\n" +
+    "</ui-select>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/selectMultipleAsyncSearch.html',
+    "<ui-select multiple data-ng-model=\"model[options.key]\" data-required=\"{{to.required}}\" data-disabled=\"{{to.disabled}}\" theme=\"bootstrap\">\n" +
+    "    <ui-select-match placeholder=\"{{to.placeholder}}\" allow-clear=\"true\">{{$item[to.labelProp]}}</ui-select-match>\n" +
+    "    <ui-select-choices repeat=\"option[to.valueProp] as option in to.options | filter: $select.search\" data-refresh=\"to.refresh($select.search, options)\" data-refresh-delay=\"{{to.refreshDelay}}\">\n" +
     "        <div ng-bind-html=\"option[to.labelProp] | highlight: $select.search\"></div>\n" +
     "    </ui-select-choices>\n" +
     "</ui-select>\n"
