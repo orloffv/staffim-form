@@ -282,7 +282,10 @@
             this.patchFields = [];
             this.modal = null;
             this.tableParams = null;
-            this.onSuccess = function() {};
+            this.onSuccess = function() {
+                return true;
+            };
+            this.status = 'draft';
 
             return this;
         };
@@ -452,27 +455,35 @@
 
             return this.formModel.$patch(this.getPatchFields(), patchAction).$asPromise()
                 .then(function(data) {
+                    that.status = 'success';
                     angular.copy(that.formModel, that.originalModel);
                     toastr.success(that.successMessage);
-                    if (that.formOptions) {
-                        if (that.formOptions.updateInitialValue) {
-                            that.formOptions.updateInitialValue();
-                        }
-                        if (that.formOptions.formState) {
-                            if (that.formOptions.formState.edit) {
-                                that.formOptions.formState.edit = false;
-                            }
-                        }
-                    }
+
                     if (that.modal) {
                         that.modal.dismiss('cancel');
                     }
+
                     if (that.tableParams) {
                         that.tableParams.reload();
                     }
 
                     if (_.isFunction(that.onSuccess)) {
-                        that.onSuccess(data);
+                        $q
+                            .when(that.onSuccess(data))
+                            .finally(function() {
+                                if (that.formOptions) {
+                                    if (that.formOptions.updateInitialValue) {
+                                        that.formOptions.updateInitialValue();
+                                    }
+                                    if (that.formOptions.formState) {
+                                        if (that.formOptions.formState.edit) {
+                                            that.formOptions.formState.edit = false;
+                                        }
+                                    }
+                                }
+
+                                that.status = 'draft';
+                            });
                     }
 
                     return data;
@@ -490,7 +501,7 @@
         }
 
         function onSubmit() {
-            if (this.form && !this.form.$valid) {
+            if ((this.form && !this.form.$valid) || this.status === 'success') {
                 return false;
             }
 
