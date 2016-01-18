@@ -151,6 +151,21 @@
         function setModal(modal) {
             this.modal = modal;
 
+            if (_.size(this.fields)) {
+                _.each(this.fields, function(field) {
+                    if (_.has(field, 'templateOptions') && _.has(field.templateOptions, 'focus') && field.templateOptions.focus) {
+                        delete field.templateOptions.focus;
+
+                        if (!_.has(field, 'expressionProperties')) {
+                            field.expressionProperties = {};
+                        }
+                        field.expressionProperties['templateOptions.focus'] = function() {
+                            return true;
+                        };
+                    }
+                });
+            }
+
             return this;
         }
 
