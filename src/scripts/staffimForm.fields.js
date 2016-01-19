@@ -24,8 +24,8 @@
         formlyValidationMessages.addStringMessage('require', 'Обязательно для заполнения');
     }
 
-    materialFields.$inject = ['formlyConfig', 'SUFormatterDate'];
-    function materialFields(formlyConfig, SUFormatterDate) {
+    materialFields.$inject = ['formlyConfig', 'SUFormatterDate', '$q'];
+    function materialFields(formlyConfig, SUFormatterDate, $q) {
         function _defineProperty(obj, key, value) {
             if (key in obj) {
                 Object.defineProperty(obj, key, {value: value, enumerable: true, configurable: true, writable: true});
@@ -78,68 +78,112 @@
             }
         });
 
-        formlyConfig.setType({
-            name: 'select',
-            templateUrl: '/staffim-form/select.html',
-            defaultOptions: function defaultOptions(options) {
-                /* jshint maxlen:210 */
-                var ngOptions =
-                    options.templateOptions.ngOptions || 'option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by option[to.groupProp || \'group\'] for option in to.options';
+        function refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst) {
+            var defer = $q.defer();
 
-                return {
-                    ngModelAttrs: _defineProperty({}, ngOptions, {
-                        value: options.templateOptions.optionsAttr || 'ng-options'
-                    }),
-                    modelOptions: {
-                        //updateOn: 'submit'
-                    },
-                    className: 'form-group'
-                };
-            },
-            link: function($scope) {
-                $scope.getViewValue = function() {
-                    var value = _.has($scope.model, $scope.options.key) ? $scope.model[$scope.options.key] : null;
-                    _.each($scope.options.templateOptions.options, function(option) {
-                        if (option[$scope.options.templateOptions.valueProp] === value) {
-                            value = option[$scope.options.templateOptions.labelProp];
-                        }
+            if (isFirst) {
+                selectedData = $scope.to.defaultOptions;
+                isFirst = false;
+            }
+
+            selectedData = _.filter(selectedData, function(item) {
+                return _.indexOf(values, item.id) !== -1;
+            });
+
+            _.each(values, function(value) {
+                var findSelected = _.find(selectedData, function(item) {
+                    return value === item.id;
+                });
+
+                if (!findSelected) {
+                    var findLastLoaded = _.find(lastLoadedData, function(item) {
+                        return value === item.id;
                     });
 
-                    return value;
-                };
-            }
-        });
-
-        formlyConfig.setType({
-            name: 'select-multiple',
-            extends: 'select',
-            templateUrl: '/staffim-form/selectMultiple.html',
-            link: function($scope) {
-                if (angular.isUndefined($scope.to.allowClear)) {
-                    $scope.to.allowClear = true;
+                    if (findLastLoaded) {
+                        selectedData.push(findLastLoaded);
+                    }
                 }
+            });
+
+            if (!_.isUndefined(lastQuery) && (_.isEqual(query, lastQuery) || !query && !lastQuery)) {
+                defer.resolve(lastLoadedData);
+            } else {
+                $scope.to.refreshOptions(query)
+                    .then(function(data) {
+                        lastLoadedData = angular.copy(data);
+                        lastQuery = query;
+
+                        _.each(selectedData, function(selectedItem) {
+                            var find = _.find(data, function(item) {
+                                return selectedItem.id === item.id;
+                            });
+
+                            if (!find) {
+                                data.push(selectedItem);
+                            }
+                        });
+
+                        defer.resolve(data);
+                    });
             }
-        });
+
+            return defer.promise;
+        }
 
         formlyConfig.setType({
             name: 'select-async-search',
-            extends: 'select',
+            defaultOptions: {
+                className: 'form-group'
+            },
             templateUrl: '/staffim-form/selectAsyncSearch.html',
             link: function($scope) {
-                if (angular.isUndefined($scope.to.allowClear)) {
-                    $scope.to.allowClear = true;
+                $scope.selectOptions = {
+                    debounce: 200
+                };
+                if (!angular.isUndefined($scope.to.cleanModel)) {
+                    $scope.selectOptions.cleanModel = true;
                 }
+
+                var lastQuery,
+                    lastLoadedData = [],
+                    selectedData = [],
+                    isFirst = true;
+
+                $scope.refreshData = function(query) {
+                    var values = angular.copy($scope.model[$scope.options.key]);
+
+                    if (!values) {
+                        values = [];
+                    } else {
+                        values = [values];
+                    }
+
+                    return refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst);
+                };
             }
         });
 
         formlyConfig.setType({
             name: 'select-multiple-async-search',
-            extends: 'select',
+            defaultOptions: {
+                className: 'form-group'
+            },
             templateUrl: '/staffim-form/selectMultipleAsyncSearch.html',
             link: function($scope) {
-                if (angular.isUndefined($scope.to.allowClear)) {
-                    $scope.to.allowClear = true;
-                }
+                $scope.selectOptions = {
+                    debounce: 200
+                };
+                var lastQuery,
+                    lastLoadedData = [],
+                    selectedData = [],
+                    isFirst = true;
+
+                $scope.refreshData = function(query) {
+                    var values = $scope.model[$scope.options.key];
+
+                    return refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst);
+                };
             }
         });
 

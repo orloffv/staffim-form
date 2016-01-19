@@ -9,7 +9,7 @@
   ],
   "dependencies": {
     "angular-formly": "~7.3.2",
-    "ui-select": "angular-ui-select#~0.13.2",
+    "oi.select": "~0.2.20",
     "angular-sanitize": "~1.4.7",
     "api-check": "~7.5.5",
     "angular-summernote": "~0.7.0",
