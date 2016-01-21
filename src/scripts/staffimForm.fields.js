@@ -78,53 +78,52 @@
             }
         });
 
-        function refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst) {
+        function refreshAsyncSelect($scope, query, values) {
             var defer = $q.defer();
 
-            if (isFirst) {
-                selectedData = $scope.to.defaultOptions;
-                isFirst = false;
-            }
-
-            selectedData = _.filter(selectedData, function(item) {
+            $scope.selectedData = _.filter($scope.selectedData, function(item) {
                 return _.indexOf(values, item.id) !== -1;
             });
 
             _.each(values, function(value) {
-                var findSelected = _.find(selectedData, function(item) {
+                var findSelected = _.find($scope.selectedData, function(item) {
                     return value === item.id;
                 });
 
                 if (!findSelected) {
-                    var findLastLoaded = _.find(lastLoadedData, function(item) {
+                    var findLastLoaded = _.find($scope.lastLoadedData, function(item) {
                         return value === item.id;
                     });
 
                     if (findLastLoaded) {
-                        selectedData.push(findLastLoaded);
+                        $scope.selectedData.push(findLastLoaded);
                     }
                 }
             });
 
-            if (!_.isUndefined(lastQuery) && (_.isEqual(query, lastQuery) || !query && !lastQuery)) {
-                defer.resolve(lastLoadedData);
+            function updateData(data, selectedData) {
+                _.each(selectedData, function(selectedItem) {
+                    var find = _.find(data, function(item) {
+                        return selectedItem.id === item.id;
+                    });
+
+                    if (!find) {
+                        data.push(selectedItem);
+                    }
+                });
+
+                return data;
+            }
+
+            if (!_.isUndefined($scope.lastQuery) && (_.isEqual(query, $scope.lastQuery) || !query && !$scope.lastQuery)) {
+                defer.resolve(updateData($scope.lastLoadedData, $scope.selectedData));
             } else {
                 $scope.to.refreshOptions(query)
                     .then(function(data) {
-                        lastLoadedData = angular.copy(data);
-                        lastQuery = query;
+                        $scope.lastLoadedData = angular.copy(data);
+                        $scope.lastQuery = query;
 
-                        _.each(selectedData, function(selectedItem) {
-                            var find = _.find(data, function(item) {
-                                return selectedItem.id === item.id;
-                            });
-
-                            if (!find) {
-                                data.push(selectedItem);
-                            }
-                        });
-
-                        defer.resolve(data);
+                        defer.resolve(updateData(data, $scope.selectedData));
                     });
             }
 
@@ -145,10 +144,9 @@
                     $scope.selectOptions.cleanModel = true;
                 }
 
-                var lastQuery,
-                    lastLoadedData = [],
-                    selectedData = [],
-                    isFirst = true;
+                $scope.lastQuery = undefined;
+                $scope.lastLoadedData = [];
+                $scope.selectedData = $scope.to.defaultOptions;
 
                 $scope.refreshData = function(query) {
                     var values = angular.copy($scope.model[$scope.options.key]);
@@ -159,7 +157,7 @@
                         values = [values];
                     }
 
-                    return refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst);
+                    return refreshAsyncSelect($scope, query, values);
                 };
             }
         });
@@ -174,15 +172,15 @@
                 $scope.selectOptions = {
                     debounce: 200
                 };
-                var lastQuery,
-                    lastLoadedData = [],
-                    selectedData = [],
-                    isFirst = true;
+
+                $scope.lastQuery = undefined;
+                $scope.lastLoadedData = [];
+                $scope.selectedData = $scope.to.defaultOptions;
 
                 $scope.refreshData = function(query) {
                     var values = $scope.model[$scope.options.key];
 
-                    return refreshAsyncSelect($scope, query, values, lastQuery, lastLoadedData, selectedData, isFirst);
+                    return refreshAsyncSelect($scope, query, values);
                 };
             }
         });
