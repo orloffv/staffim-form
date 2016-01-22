@@ -7,10 +7,10 @@
                 <small class="required">(не обязательно)</small>
             </span>
         </label>
-        <div ng-if="formState.edit !== false">
+        <div ng-if="formState.edit !== false && to.editView !== true">
             <formly-transclude></formly-transclude>
         </div>
-        <span ng-if="formState.edit === false" ng-class="to.viewClassName"
+        <span ng-if="formState.edit === false || to.editView === true" ng-class="to.viewClassName"
             su-compile="to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])">
         </span>
     </div>

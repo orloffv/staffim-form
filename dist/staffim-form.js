@@ -764,10 +764,10 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    </dt>\n" +
     "    <dd>\n" +
     "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
-    "            <div ng-if=\"formState.edit !== false\">\n" +
+    "            <div ng-if=\"formState.edit !== false && to.editView !== true\">\n" +
     "                <formly-transclude></formly-transclude>\n" +
     "            </div>\n" +
-    "            <span ng-if=\"formState.edit === false\" ng-class=\"to.viewClassName\"\n" +
+    "            <span ng-if=\"formState.edit === false || to.editView === true\" ng-class=\"to.viewClassName\"\n" +
     "                su-compile=\"to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
     "            </span>\n" +
     "        </div>\n" +
@@ -791,10 +791,10 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "                <small class=\"required\">(не обязательно)</small>\n" +
     "            </span>\n" +
     "        </label>\n" +
-    "        <div ng-if=\"formState.edit !== false\">\n" +
+    "        <div ng-if=\"formState.edit !== false && to.editView !== true\">\n" +
     "            <formly-transclude></formly-transclude>\n" +
     "        </div>\n" +
-    "        <span ng-if=\"formState.edit === false\" ng-class=\"to.viewClassName\"\n" +
+    "        <span ng-if=\"formState.edit === false || to.editView === true\" ng-class=\"to.viewClassName\"\n" +
     "            su-compile=\"to.viewFormatter ? (to.viewFormatter((getViewValue ? getViewValue() : model[options.key]), model)) : (getViewValue ? getViewValue() : model[options.key])\">\n" +
     "        </span>\n" +
     "    </div>\n" +
