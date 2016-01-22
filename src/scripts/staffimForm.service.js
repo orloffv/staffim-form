@@ -198,7 +198,18 @@
 
         function getPatchFields() {
             if (!_.size(this.patchFields) && _.size(this.getFields())) {
-                return _.pluck(this.getFields(), 'key');
+                var fields = _.pluck(this.getFields(), 'key');
+
+                _
+                    .chain(this.getFields())
+                    .filter(function(field) {
+                        return !_.has(field, 'key') && _.has(field, 'fieldGroup');
+                    })
+                    .each(function(field) {
+                        fields.push(_.pluck(field.fieldGroup, 'key'));
+                    });
+
+                return _.flatten(_.compact(fields));
             }
 
             return this.patchFields;
