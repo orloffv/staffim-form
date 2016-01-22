@@ -322,6 +322,7 @@
             this.successMessage = null;
             this.errorMessage = null;
             this.patchFields = [];
+            this.patchParams = {};
             this.modal = null;
             this.tableParams = null;
             this.onSuccess = function() {
@@ -346,9 +347,11 @@
         service.prototype.setTableParams = setTableParams;
         service.prototype.setPatchFields = setPatchFields;
         service.prototype.setOnSuccess = setOnSuccess;
+        service.prototype.setPatchParams = setPatchParams;
         service.prototype.getFormModel = getFormModel;
         service.prototype.getFields = getFields;
         service.prototype.getPatchFields = getPatchFields;
+        service.prototype.getPatchParams = getPatchParams;
         service.prototype.getFormOptions = getFormOptions;
         service.prototype.onSubmit = onSubmit;
         service.prototype.resetModel = resetModel;
@@ -456,6 +459,12 @@
             return this;
         }
 
+        function setPatchParams(patchParams) {
+            this.patchParams = patchParams;
+
+            return this;
+        }
+
         function setModal(modal) {
             this.modal = modal;
 
@@ -503,6 +512,10 @@
             return this.patchFields;
         }
 
+        function getPatchParams() {
+            return this.patchParams;
+        }
+
         function patchRemove() {
             return this.submit('remove');
         }
@@ -510,7 +523,7 @@
         function submit(patchAction) {
             var that = this;
 
-            return this.formModel.$patch(this.getPatchFields(), patchAction).$asPromise()
+            return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
                 .then(function(data) {
                     that.status = 'success';
                     angular.copy(that.formModel, that.originalModel);
