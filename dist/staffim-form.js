@@ -346,6 +346,7 @@
                 return true;
             };
             this.status = 'draft';
+            this.viewAfterSave = true;
 
             return this;
         };
@@ -365,6 +366,8 @@
         service.prototype.setPatchFields = setPatchFields;
         service.prototype.setOnSuccess = setOnSuccess;
         service.prototype.setPatchParams = setPatchParams;
+        service.prototype.setNotViewAfterSave = setNotViewAfterSave;
+        service.prototype.setViewAfterSave = setViewAfterSave;
         service.prototype.getFormModel = getFormModel;
         service.prototype.getFields = getFields;
         service.prototype.getPatchFields = getPatchFields;
@@ -388,6 +391,18 @@
                     label: false
                 }
             });
+
+            return this;
+        }
+
+        function setNotViewAfterSave() {
+            this.viewAfterSave = false;
+
+            return this;
+        }
+
+        function setViewAfterSave() {
+            this.viewAfterSave = true;
 
             return this;
         }
@@ -573,7 +588,7 @@
                                     if (that.formOptions.updateInitialValue) {
                                         that.formOptions.updateInitialValue();
                                     }
-                                    if (that.formOptions.formState) {
+                                    if (that.formOptions.formState && that.viewAfterSave) {
                                         if (that.formOptions.formState.edit) {
                                             that.formOptions.formState.edit = false;
                                         }
