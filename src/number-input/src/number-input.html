@@ -1,0 +1,19 @@
+<div class="input-group">
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-danger" data-no-waves="true" ng-click="numberInput.dec()">
+            <i class="zmdi zmdi-minus-circle-outline"></i>
+        </button>
+    </span>
+    <input type="text"
+        class="form-control pull-left"
+        style="text-align: center;"
+        ng-model="model"
+        ng-change="numberInput.onChange()"
+        ng-keydown="numberInput.onKeyPress($event)"
+        ng-blur="numberInput.onBlur()">
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-success" data-no-waves="true" ng-click="numberInput.inc()">
+            <i class="zmdi zmdi-plus-circle-o"></i>
+        </button>
+    </span>
+</div>

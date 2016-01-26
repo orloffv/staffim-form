@@ -113,6 +113,23 @@
             }
         });
 
+        formlyConfig.setType({
+            name: 'number',
+            templateUrl: '/staffim-form/number.html',
+            link: function($scope) {
+                $scope.numberOptions = {
+                    min: 0,
+                    step: 1,
+                    hideHint: true,
+                    disableDecimal: true,
+                    decimalPlaces: 0
+                };
+            },
+            defaultOptions: {
+                className: 'form-group form-counter m-b-0'
+            }
+        });
+
         function refreshAsyncSelect($scope, query, values) {
             var defer = $q.defer();
 
@@ -818,6 +835,12 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('/staffim-form/number.html',
+    "<number-input ng-class=\"to.className\" ng-model=\"model[options.key]\" options=\"numberOptions\"></number-input>\n" +
+    "<label class=\"control-label\">{{to.labelInfo}}</label>\n"
+  );
+
+
   $templateCache.put('/staffim-form/selectAsyncSearch.html',
     "<oi-select\n" +
     "        oi-options=\"item.id as item.name for item in refreshData($query) track by item.id\"\n" +
@@ -920,6 +943,33 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('/staffim-form/wysiwyg.html',
     "<summernote ng-model=\"model[options.key]\" config=\"summernoteOptions\"></summernote>\n"
+  );
+
+}]);
+
+angular.module('staffimForm').run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('src/number-input.html',
+    "<div class=\"input-group\">\n" +
+    "    <span class=\"input-group-btn\">\n" +
+    "        <button type=\"button\" class=\"btn btn-danger\" data-no-waves=\"true\" ng-click=\"numberInput.dec()\">\n" +
+    "            <i class=\"zmdi zmdi-minus-circle-outline\"></i>\n" +
+    "        </button>\n" +
+    "    </span>\n" +
+    "    <input type=\"text\"\n" +
+    "        class=\"form-control pull-left\"\n" +
+    "        style=\"text-align: center;\"\n" +
+    "        ng-model=\"model\"\n" +
+    "        ng-change=\"numberInput.onChange()\"\n" +
+    "        ng-keydown=\"numberInput.onKeyPress($event)\"\n" +
+    "        ng-blur=\"numberInput.onBlur()\">\n" +
+    "    <span class=\"input-group-btn\">\n" +
+    "        <button type=\"button\" class=\"btn btn-success\" data-no-waves=\"true\" ng-click=\"numberInput.inc()\">\n" +
+    "            <i class=\"zmdi zmdi-plus-circle-o\"></i>\n" +
+    "        </button>\n" +
+    "    </span>\n" +
+    "</div>\n"
   );
 
 }]);

@@ -78,6 +78,23 @@
             }
         });
 
+        formlyConfig.setType({
+            name: 'number',
+            templateUrl: '/staffim-form/number.html',
+            link: function($scope) {
+                $scope.numberOptions = {
+                    min: 0,
+                    step: 1,
+                    hideHint: true,
+                    disableDecimal: true,
+                    decimalPlaces: 0
+                };
+            },
+            defaultOptions: {
+                className: 'form-group form-counter m-b-0'
+            }
+        });
+
         function refreshAsyncSelect($scope, query, values) {
             var defer = $q.defer();
 

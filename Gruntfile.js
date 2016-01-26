@@ -13,7 +13,8 @@ module.exports = function(grunt) {
                     'src/scripts/staffimForm.tableInlineEdit.js',
                     'src/scripts/staffimForm.tableHeaderFilter.js',
                     'src/scripts/staffimForm.wysiwyg.js',
-                    '.tmp/templates.js'
+                    '.tmp/templates.js',
+                    '.tmp/number-input-templates.js'
                 ],
                 dest: './dist/staffim-form.js'
             }
@@ -25,6 +26,14 @@ module.exports = function(grunt) {
                 dest: '.tmp/templates.js',
                 options: {
                     prefix: '/',
+                    module: 'staffimForm'
+                }
+            },
+            number: {
+                cwd: 'src/number-input/',
+                src: ['src/**/*.html'],
+                dest: '.tmp/number-input-templates.js',
+                options: {
                     module: 'staffimForm'
                 }
             }

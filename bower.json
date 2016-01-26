@@ -13,6 +13,7 @@
     "angular-sanitize": "~1.4.7",
     "api-check": "~7.5.5",
     "angular-summernote": "~0.7.0",
+    "angular-number-input": "git@github.com:cohenadair/angular.number-input.git#d7467241188cffcf30435936719a17988e637d5c",
     "angular": "latest"
   }
 }
