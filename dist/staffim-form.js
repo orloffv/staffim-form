@@ -549,7 +549,11 @@
                         fields.push(_.pluck(field.fieldGroup, 'key'));
                     });
 
-                return _.flatten(_.compact(fields));
+                fields = _.map(_.flatten(_.compact(fields)), function(field) {
+                    return _.first(_.words(field, '.'));
+                });
+
+                return fields;
             }
 
             return this.patchFields;
