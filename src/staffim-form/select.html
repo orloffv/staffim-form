@@ -1,5 +1,5 @@
 <oi-select
-    oi-options="item.id as item.name for item in refreshData($query) track by item.id"
+    oi-options="item.id as item.name for item in to.options track by item.id"
     ng-model="model[options.key]"
     oi-select-options="selectOptions"
     >

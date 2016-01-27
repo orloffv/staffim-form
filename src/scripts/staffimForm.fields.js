@@ -148,6 +148,30 @@
         }
 
         formlyConfig.setType({
+            name: 'select',
+            defaultOptions: {
+                className: 'form-group'
+            },
+            templateUrl: '/staffim-form/select.html',
+            link: function($scope) {
+                $scope.selectOptions = {};
+                if (!angular.isUndefined($scope.to.cleanModel)) {
+                    $scope.selectOptions.cleanModel = true;
+                }
+                $scope.to.options = _.map($scope.to.options, function(item) {
+                    if (!_.isObject(item)) {
+                        return {
+                            id: item,
+                            name: item
+                        }
+                    }
+
+                    return item;
+                });
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select-async-search',
             defaultOptions: {
                 className: 'form-group'

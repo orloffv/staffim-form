@@ -183,6 +183,30 @@
         }
 
         formlyConfig.setType({
+            name: 'select',
+            defaultOptions: {
+                className: 'form-group'
+            },
+            templateUrl: '/staffim-form/select.html',
+            link: function($scope) {
+                $scope.selectOptions = {};
+                if (!angular.isUndefined($scope.to.cleanModel)) {
+                    $scope.selectOptions.cleanModel = true;
+                }
+                $scope.to.options = _.map($scope.to.options, function(item) {
+                    if (!_.isObject(item)) {
+                        return {
+                            id: item,
+                            name: item
+                        }
+                    }
+
+                    return item;
+                });
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select-async-search',
             defaultOptions: {
                 className: 'form-group'
@@ -830,7 +854,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('/staffim-form/materialWrapper.html',
     "<div ng-class=\"[{'has-error': showError}]\" ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
-    "    <div class=\"fg-line\" ng-class=\"{'select': options.type === 'select' && formState.edit !== false}\">\n" +
+    "    <div class=\"fg-line\">\n" +
     "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label && formState.label !== false\">\n" +
     "            {{to.label}}\n" +
     "            <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +
@@ -860,12 +884,22 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('/staffim-form/select.html',
+    "<oi-select\n" +
+    "    oi-options=\"item.id as item.name for item in to.options track by item.id\"\n" +
+    "    ng-model=\"model[options.key]\"\n" +
+    "    oi-select-options=\"selectOptions\"\n" +
+    "    >\n" +
+    "</oi-select>\n"
+  );
+
+
   $templateCache.put('/staffim-form/selectAsyncSearch.html',
     "<oi-select\n" +
-    "        oi-options=\"item.id as item.name for item in refreshData($query) track by item.id\"\n" +
-    "        ng-model=\"model[options.key]\"\n" +
-    "        oi-select-options=\"selectOptions\"\n" +
-    "        >\n" +
+    "    oi-options=\"item.id as item.name for item in refreshData($query) track by item.id\"\n" +
+    "    ng-model=\"model[options.key]\"\n" +
+    "    oi-select-options=\"selectOptions\"\n" +
+    "    >\n" +
     "</oi-select>\n"
   );
 
