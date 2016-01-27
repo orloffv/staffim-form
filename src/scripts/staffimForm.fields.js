@@ -72,7 +72,7 @@
                 if (angular.isUndefined($scope.to.trueValue)) {
                     $scope.to.trueValue = true;
                 }
-                if (angular.isUndefined) {
+                if (angular.isUndefined($scope.model[$scope.options.key])) {
                     $scope.model[$scope.options.key] = $scope.to.falseValue;
                 }
             }

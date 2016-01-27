@@ -107,7 +107,7 @@
                 if (angular.isUndefined($scope.to.trueValue)) {
                     $scope.to.trueValue = true;
                 }
-                if (angular.isUndefined) {
+                if (angular.isUndefined($scope.model[$scope.options.key])) {
                     $scope.model[$scope.options.key] = $scope.to.falseValue;
                 }
             }
@@ -884,8 +884,8 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   $templateCache.put('/staffim-form/switch.html',
     "<div class=\"toggle-switch\">\n" +
     "    <input ng-model=\"model[options.key]\" type=\"checkbox\" hidden=\"hidden\"\n" +
-    "        ng-true-value=\"'{{::to.trueValue}}'\"\n" +
-    "        ng-false-value=\"'{{::to.falseValue}}'\">\n" +
+    "        ng-true-value=\"{{::to.trueValue}}\"\n" +
+    "        ng-false-value=\"{{::to.falseValue}}\">\n" +
     "    <label for=\"{{id}}\" class=\"ts-helper\"></label>\n" +
     "    <label for=\"{{id}}\" class=\"ts-label m-l-5\">{{to.labelInfo}}</label>\n" +
     "</div>\n"

@@ -1,7 +1,7 @@
 <div class="toggle-switch">
     <input ng-model="model[options.key]" type="checkbox" hidden="hidden"
-        ng-true-value="'{{::to.trueValue}}'"
-        ng-false-value="'{{::to.falseValue}}'">
+        ng-true-value="{{::to.trueValue}}"
+        ng-false-value="{{::to.falseValue}}">
     <label for="{{id}}" class="ts-helper"></label>
     <label for="{{id}}" class="ts-label m-l-5">{{to.labelInfo}}</label>
 </div>
