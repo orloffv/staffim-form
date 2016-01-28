@@ -481,7 +481,7 @@
 
         function setOriginalModel(originalModel) {
             this.originalModel = originalModel;
-            this.formModel = _.clone(this.originalModel);
+            this.formModel = angular.copy(this.originalModel);
 
             return this;
         }
@@ -682,7 +682,8 @@
                 scope: {
                     title: '@',
                     iconClass: '@',
-                    formInstance: '='
+                    formInstance: '=',
+                    allowEdit: '@'
                 },
                 link: function($scope) {
                     $scope.options = $scope.formInstance.getFormOptions();
@@ -978,7 +979,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "<div class=\"pmb-block\">\n" +
     "    <div class=\"pmbb-header\">\n" +
     "        <h2><i class=\"{{iconClass}}\"></i> {{title}}</h2>\n" +
-    "        <ul class=\"actions\" ng-if=\"!options.formState.edit\">\n" +
+    "        <ul class=\"actions\" ng-if=\"!options.formState.edit\" permission-only=\"{{allowEdit}}\">\n" +
     "            <li class=\"dropdown\" uib-dropdown>\n" +
     "                <a href=\"#\" uib-dropdown-toggle>\n" +
     "                    <i class=\"zmdi zmdi-more-vert\"></i>\n" +

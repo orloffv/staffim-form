@@ -7,7 +7,8 @@
                 scope: {
                     title: '@',
                     iconClass: '@',
-                    formInstance: '='
+                    formInstance: '=',
+                    allowEdit: '@'
                 },
                 link: function($scope) {
                     $scope.options = $scope.formInstance.getFormOptions();
