@@ -132,7 +132,7 @@
 
         function setOriginalModel(originalModel) {
             this.originalModel = originalModel;
-            this.formModel = _.clone(this.originalModel);
+            this.formModel = angular.copy(this.originalModel);
 
             return this;
         }
