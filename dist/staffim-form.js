@@ -369,6 +369,9 @@
             this.onSuccess = function() {
                 return true;
             };
+            this.onBeforeSave = function() {
+                return true;
+            };
             this.status = 'draft';
             this.viewAfterSave = true;
 
@@ -389,6 +392,7 @@
         service.prototype.setTableParams = setTableParams;
         service.prototype.setPatchFields = setPatchFields;
         service.prototype.setOnSuccess = setOnSuccess;
+        service.prototype.setOnBeforeSave = setOnBeforeSave;
         service.prototype.setPatchParams = setPatchParams;
         service.prototype.setNotViewAfterSave = setNotViewAfterSave;
         service.prototype.setViewAfterSave = setViewAfterSave;
@@ -499,6 +503,12 @@
 
         function setOnSuccess(onSuccess) {
             this.onSuccess = onSuccess;
+
+            return this;
+        }
+
+        function setOnBeforeSave(onBeforeSave) {
+            this.onBeforeSave = onBeforeSave;
 
             return this;
         }
@@ -642,6 +652,10 @@
         }
 
         function onSubmit() {
+            if (_.isFunction(this.onBeforeSave)) {
+                this.onBeforeSave(this.formModel);
+            }
+
             if ((this.form && !this.form.$valid) || this.status === 'success') {
                 return false;
             }
