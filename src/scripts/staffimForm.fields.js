@@ -303,11 +303,14 @@
                     return SUFormatterDate.formatter(value);
                 }]
             },
-            controller: ['$scope', function ($scope) {
+            controller: ['$scope', '$filter', function ($scope, $filter) {
                 $scope.datepicker = {};
                 $scope.datepicker.opened = false;
                 $scope.datepicker.open = function ($event) {
                     $scope.datepicker.opened = true;
+                };
+                $scope.getViewValue = function() {
+                    return $filter('date')($scope.model[$scope.options.key], $scope.to.format);
                 };
             }]
         });
