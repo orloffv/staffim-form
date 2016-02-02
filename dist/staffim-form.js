@@ -198,11 +198,20 @@
                         return {
                             id: item,
                             name: item
-                        }
+                        };
                     }
 
                     return item;
                 });
+
+                $scope.getViewValue = function() {
+                    var value = _.has($scope.model, $scope.options.key) ? $scope.model[$scope.options.key] : null;
+                    value = _.find($scope.to.options, function(option) {
+                        return option.id === value;
+                    });
+
+                    return value ? value.name : value;
+                };
             }
         });
 
