@@ -113,7 +113,7 @@
                     $scope.to.trueValue = '\'' + $scope.to.trueValue + '\'';
                 }
 
-                if (angular.isUndefined($scope.model[$scope.options.key])) {
+                if (angular.isUndefined($scope.model[$scope.options.key]) || $scope.to.setValueAfterInit) {
                     $scope.model[$scope.options.key] = $scope.to.falseValue;
                 }
             }
