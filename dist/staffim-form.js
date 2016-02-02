@@ -124,6 +124,9 @@
                     disableDecimal: true,
                     decimalPlaces: 0
                 };
+                if (!_.isUndefined($scope.to.max)) {
+                    $scope.numberOptions.max = $scope.to.max;
+                }
             },
             defaultOptions: {
                 className: 'form-group form-counter m-b-0'
