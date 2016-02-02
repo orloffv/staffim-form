@@ -103,10 +103,16 @@
             link: function($scope) {
                 if (angular.isUndefined($scope.to.falseValue)) {
                     $scope.to.falseValue = false;
+                } else {
+                    $scope.to.falseValue = '\'' + $scope.to.falseValue + '\'';
                 }
+
                 if (angular.isUndefined($scope.to.trueValue)) {
                     $scope.to.trueValue = true;
+                } else {
+                    $scope.to.trueValue = '\'' + $scope.to.trueValue + '\'';
                 }
+
                 if (angular.isUndefined($scope.model[$scope.options.key])) {
                     $scope.model[$scope.options.key] = $scope.to.falseValue;
                 }
