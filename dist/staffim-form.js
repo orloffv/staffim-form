@@ -114,7 +114,7 @@
                 }
 
                 if (angular.isUndefined($scope.model[$scope.options.key]) || $scope.to.setValueAfterInit) {
-                    $scope.model[$scope.options.key] = $scope.to.falseValue;
+                    $scope.model[$scope.options.key] = _.isString($scope.to.falseValue) ? _.replaceAll($scope.to.falseValue, '\'', '') : $scope.to.falseValue;
                 }
             }
         });
