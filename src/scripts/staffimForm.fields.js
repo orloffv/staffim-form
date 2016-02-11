@@ -300,7 +300,7 @@
                 templateOptions: {
                     datepickerOptions: {
                         showWeeks: false,
-                        format: 'MM.dd.yyyy',
+                        format: 'dd.MM.yyyy',
                         formatDayTitle: 'MMM yyyy',
                         initDate: new Date()
                     }
