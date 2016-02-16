@@ -8,14 +8,15 @@
                 replace: true,
                 scope: {
                     params: '=',
-                    formInstance: '=formInstance'
+                    formInstance: '=formInstance',
+                    mapper: '='
                 },
                 controller: ['$scope', function($scope) {
                     $scope.options = $scope.formInstance.getFormOptions();
                     $scope.model = $scope.formInstance.getFormModel();
                     $scope.fields = $scope.formInstance.getFields();
                     $scope.$watch('model', function(data) {
-                        _.each(data, function(value, key) {
+                        _.each($scope.mapper ? $scope.mapper(data) : data, function(value, key) {
                             if (value) {
                                 if (value !== $scope.params.filter()[key]) {
                                     $scope.params.filter()[key] = value;
