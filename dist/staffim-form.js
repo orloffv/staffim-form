@@ -548,6 +548,11 @@
         function setOriginalModel(originalModel) {
             this.originalModel = originalModel;
             this.formModel = angular.copy(this.originalModel);
+            _.each(this.originalModel, function(item, key) { //Hack for hasMany relation save
+                if (_.isObject(item) && _.has(item, '$scope')) {
+                    this.formModel[key] = item;
+                }
+            }, this);
 
             return this;
         }
