@@ -120,6 +120,24 @@
         });
 
         formlyConfig.setType({
+            name: '3switch',
+            templateUrl: '/staffim-form/3switch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.falseValue)) {
+                    $scope.to.falseValue = false;
+                } else {
+                    $scope.to.falseValue = '\'' + $scope.to.falseValue + '\'';
+                }
+
+                if (angular.isUndefined($scope.to.trueValue)) {
+                    $scope.to.trueValue = true;
+                } else {
+                    $scope.to.trueValue = '\'' + $scope.to.trueValue + '\'';
+                }
+            }
+        });
+
+        formlyConfig.setType({
             name: 'number',
             templateUrl: '/staffim-form/number.html',
             link: function($scope) {
@@ -869,6 +887,18 @@
 
 angular.module('staffimForm').run(['$templateCache', function($templateCache) {
   'use strict';
+
+  $templateCache.put('/staffim-form/3switch.html',
+    "<div class=\"btn-group btn-group-toggle\">\n" +
+    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"{{::to.trueValue}}\">\n" +
+    "        {{::to.trueLabel}}\n" +
+    "    </label>\n" +
+    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"{{::to.falseValue}}\">\n" +
+    "        {{::to.falseLabel}}\n" +
+    "    </label>\n" +
+    "</div>\n"
+  );
+
 
   $templateCache.put('/staffim-form/addons.html',
     "<div ng-class=\"{'input-group': to.addonLeft || to.addonRight}\">\n" +

@@ -85,6 +85,24 @@
         });
 
         formlyConfig.setType({
+            name: '3switch',
+            templateUrl: '/staffim-form/3switch.html',
+            link: function($scope) {
+                if (angular.isUndefined($scope.to.falseValue)) {
+                    $scope.to.falseValue = false;
+                } else {
+                    $scope.to.falseValue = '\'' + $scope.to.falseValue + '\'';
+                }
+
+                if (angular.isUndefined($scope.to.trueValue)) {
+                    $scope.to.trueValue = true;
+                } else {
+                    $scope.to.trueValue = '\'' + $scope.to.trueValue + '\'';
+                }
+            }
+        });
+
+        formlyConfig.setType({
             name: 'number',
             templateUrl: '/staffim-form/number.html',
             link: function($scope) {
