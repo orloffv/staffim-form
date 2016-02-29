@@ -565,12 +565,7 @@
 
         function setOriginalModel(originalModel) {
             this.originalModel = originalModel;
-            this.formModel = angular.copy(this.originalModel);
-            _.each(this.originalModel, function(item, key) { //Hack for hasMany relation save
-                if (_.isObject(item) && _.has(item, '$scope')) {
-                    this.formModel[key] = item;
-                }
-            }, this);
+            this.formModel = _.copyModel(this.originalModel);
 
             return this;
         }
@@ -696,7 +691,7 @@
             return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
                 .then(function(data) {
                     that.status = 'success';
-                    angular.copy(that.formModel, that.originalModel);
+                    _.copyModel(that.formModel, this.originalModel);
                     toastr.success(that.successMessage);
 
                     if (that.modal) {
