@@ -258,7 +258,7 @@
             return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
                 .then(function(data) {
                     that.status = 'success';
-                    _.copyModel(that.formModel, this.originalModel);
+                    _.copyModel(that.formModel, that.originalModel);
                     toastr.success(that.successMessage);
 
                     if (that.modal) {
