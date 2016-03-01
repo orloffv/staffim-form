@@ -1,4 +1,4 @@
-<div ng-class="{'input-group': to.addonLeft || to.addonRight}">
+<div ng-class="[{'input-group': to.addonLeft || to.addonRight}, to.inputGroupClassName]">
     <div class="input-group-addon"
          ng-if="to.addonLeft"
          ng-style="{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"

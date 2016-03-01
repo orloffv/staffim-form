@@ -212,7 +212,10 @@
         formlyConfig.setType({
             name: 'select',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/select.html',
             link: function($scope) {
@@ -245,7 +248,10 @@
         formlyConfig.setType({
             name: 'select-async-search',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/selectAsyncSearch.html',
             link: function($scope) {
@@ -277,7 +283,10 @@
         formlyConfig.setType({
             name: 'select-multiple-async-search',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/selectMultipleAsyncSearch.html',
             link: function($scope) {
@@ -896,7 +905,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/addons.html',
-    "<div ng-class=\"{'input-group': to.addonLeft || to.addonRight}\">\n" +
+    "<div ng-class=\"[{'input-group': to.addonLeft || to.addonRight}, to.inputGroupClassName]\">\n" +
     "    <div class=\"input-group-addon\"\n" +
     "         ng-if=\"to.addonLeft\"\n" +
     "         ng-style=\"{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}\"\n" +

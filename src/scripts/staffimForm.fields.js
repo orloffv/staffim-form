@@ -177,7 +177,10 @@
         formlyConfig.setType({
             name: 'select',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/select.html',
             link: function($scope) {
@@ -210,7 +213,10 @@
         formlyConfig.setType({
             name: 'select-async-search',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/selectAsyncSearch.html',
             link: function($scope) {
@@ -242,7 +248,10 @@
         formlyConfig.setType({
             name: 'select-multiple-async-search',
             defaultOptions: {
-                className: 'form-group'
+                className: 'form-group',
+                templateOptions: {
+                    inputGroupClassName: 'input-group-oi-select'
+                }
             },
             templateUrl: '/staffim-form/selectMultipleAsyncSearch.html',
             link: function($scope) {
