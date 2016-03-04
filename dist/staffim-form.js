@@ -126,13 +126,13 @@
                 if (angular.isUndefined($scope.to.falseValue)) {
                     $scope.to.falseValue = false;
                 } else {
-                    $scope.to.falseValue = '\'' + $scope.to.falseValue + '\'';
+                    $scope.to.falseValue = $scope.to.falseValue;
                 }
 
                 if (angular.isUndefined($scope.to.trueValue)) {
                     $scope.to.trueValue = true;
                 } else {
-                    $scope.to.trueValue = '\'' + $scope.to.trueValue + '\'';
+                    $scope.to.trueValue = $scope.to.trueValue;
                 }
             }
         });
@@ -894,10 +894,10 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('/staffim-form/3switch.html',
     "<div class=\"btn-group btn-group-toggle\">\n" +
-    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"{{::to.trueValue}}\">\n" +
+    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"to.trueValue\">\n" +
     "        {{::to.trueLabel}}\n" +
     "    </label>\n" +
-    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"{{::to.falseValue}}\">\n" +
+    "    <label class=\"btn btn-default btn-sm waves-effect\" ng-model=\"model[options.key]\" uib-btn-radio=\"to.falseValue\">\n" +
     "        {{::to.falseLabel}}\n" +
     "    </label>\n" +
     "</div>\n"
