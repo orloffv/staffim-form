@@ -16,6 +16,7 @@
             this.patchFields = [];
             this.patchParams = {};
             this.modal = null;
+            this.saveFunc = null;
             this.tableParams = null;
             this.onSuccess = function() {
                 return true;
@@ -47,6 +48,7 @@
         service.prototype.setPatchParams = setPatchParams;
         service.prototype.setNotViewAfterSave = setNotViewAfterSave;
         service.prototype.setViewAfterSave = setViewAfterSave;
+        service.prototype.setSaveFunction = setSaveFunction;
         service.prototype.getFormModel = getFormModel;
         service.prototype.getFields = getFields;
         service.prototype.getPatchFields = getPatchFields;
@@ -55,10 +57,17 @@
         service.prototype.onSubmit = onSubmit;
         service.prototype.resetModel = resetModel;
         service.prototype.submit = submit;
+        service.prototype.save = save;
         service.prototype.patchRemove = patchRemove;
 
         function setFormOptions(formOptions) {
             this.formOptions = formOptions;
+
+            return this;
+        }
+
+        function setSaveFunction(func) {
+            this.saveFunc = func;
 
             return this;
         }
@@ -252,10 +261,18 @@
             return this.submit('remove');
         }
 
+        function save(patchAction) {
+            if (!_.isNull(this.saveFunc)) {
+                return this.saveFunc();
+            }
+
+            return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
+        }
+
         function submit(patchAction) {
             var that = this;
 
-            return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
+            return this.save(patchAction)
                 .then(function(data) {
                     that.status = 'success';
                     _.copyModel(that.formModel, that.originalModel);
