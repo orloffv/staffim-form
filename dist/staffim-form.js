@@ -116,6 +116,23 @@
                 if (angular.isUndefined($scope.model[$scope.options.key]) || $scope.to.setValueAfterInit) {
                     $scope.model[$scope.options.key] = _.isString($scope.to.falseValue) ? _.replaceAll($scope.to.falseValue, '\'', '') : $scope.to.falseValue;
                 }
+
+                $scope.getViewValue = function() {
+                    return $scope.model[$scope.options.key] === (_.isString($scope.to.falseValue) ? _.replaceAll($scope.to.falseValue, '\'', '') : $scope.to.falseValue) ?
+                        $scope.to.falseLabel :
+                        $scope.to.trueLabel;
+                };
+            },
+            defaultOptions: {
+                validators: {
+                    required: {
+                        expression: function(viewValue, modelValue) {
+                            var value = modelValue || viewValue;
+
+                            return !_.isNull(value);
+                        }
+                    }
+                }
             }
         });
 
