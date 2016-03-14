@@ -746,8 +746,9 @@
                     }
 
                     if (_.isFunction(that.onSuccess)) {
-                        $q
-                            .when(that.onSuccess(data))
+                        var onSuccess = that.onSuccess(data);
+
+                        (_.has(onSuccess, 'then') ? onSuccess : $q.when(onSuccess))
                             .finally(function() {
                                 if (that.formOptions) {
                                     if (that.formOptions.updateInitialValue) {
@@ -768,10 +769,10 @@
                 })
                 .catch(function() {
                     /*
-                    var translator = new SRErrorTranslator(that.formModel);
-                    var errors = translator.parseResponse(errorResponse);
-                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
-                    */
+                     var translator = new SRErrorTranslator(that.formModel);
+                     var errors = translator.parseResponse(errorResponse);
+                     toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
+                     */
                     toastr.error(that.errorMessage);
 
                     return $q.reject();
@@ -779,12 +780,18 @@
         }
 
         function onSubmit() {
-            if (_.isFunction(this.onBeforeSave)) {
-                this.onBeforeSave(this.formModel);
-            }
-
             if ((this.form && !this.form.$valid) || this.status === 'success') {
                 return false;
+            }
+
+            if (_.isFunction(this.onBeforeSave)) {
+                var onBeforeSave = this.onBeforeSave(this.formModel);
+                var that = this;
+
+                return (_.has(onBeforeSave, 'then') ? onBeforeSave : $q.when(onBeforeSave))
+                    .then(function() {
+                        return that.submit();
+                    });
             }
 
             return this.submit();
