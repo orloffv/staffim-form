@@ -979,6 +979,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "            is-open=\"datepicker.opened\"\n" +
     "            datepicker-options=\"to.datepickerOptions\"\n" +
     "            type=\"text\"/>\n" +
+    "        <label class=\"line-focus\"></label>\n" +
     "    </div>\n" +
     "</div>\n"
   );
@@ -997,7 +998,8 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/input.html',
-    "<input class=\"form-control\" ng-class=\"to.className\" ng-model=\"model[options.key]\">\n"
+    "<input class=\"form-control\" ng-class=\"to.className\" ng-model=\"model[options.key]\">\n" +
+    "<label class=\"line-focus\"></label>\n"
   );
 
 
@@ -1134,7 +1136,8 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/textarea.html',
-    "<textarea class=\"form-control\" ng-model=\"model[options.key]\"></textarea>\n"
+    "<textarea class=\"form-control\" ng-model=\"model[options.key]\"></textarea>\n" +
+    "<label class=\"line-focus\"></label>\n"
   );
 
 
