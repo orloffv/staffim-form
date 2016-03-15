@@ -461,8 +461,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['toastr', '$q'];
-    function SFService(toastr, $q) {
+    SFService.$inject = ['toastr', '$q', 'SRErrorTranslator'];
+    function SFService(toastr, $q, SRErrorTranslator) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -725,7 +725,7 @@
                 return this.saveFunc();
             }
 
-            return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise()
+            return this.formModel.$patch(this.getPatchFields(), patchAction, this.getPatchParams()).$asPromise();
         }
 
         function submit(patchAction) {
@@ -767,13 +767,10 @@
 
                     return data;
                 })
-                .catch(function() {
-                    /*
-                     var translator = new SRErrorTranslator(that.formModel);
-                     var errors = translator.parseResponse(errorResponse);
-                     toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
-                     */
-                    toastr.error(that.errorMessage);
+                .catch(function(errorResponse) {
+                    var translator = new SRErrorTranslator(errorResponse.modelName);
+                    var errors = translator.parseResponse(errorResponse.$response);
+                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : options.errorMessage);
 
                     return $q.reject();
                 });
