@@ -311,7 +311,7 @@
                 .catch(function(errorResponse) {
                     var translator = new SRErrorTranslator(errorResponse.modelName);
                     var errors = translator.parseResponse(errorResponse.$response);
-                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : options.errorMessage);
+                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
 
                     return $q.reject();
                 });
