@@ -217,6 +217,53 @@
         }
 
         formlyConfig.setType({
+            name: 'simpleSelect',
+            defaultOptions: {
+                className: 'form-group',
+                parsers: [function(value) {
+                    if (value === 'true') {
+                        return true;
+                    } else if (value === 'false') {
+                        return false;
+                    }
+
+                    return value;
+                }],
+                formatters: [function(value) {
+                    if (value === true) {
+                        return 'true';
+                    } else if (value === false) {
+                        return 'false';
+                    }
+
+                    return value;
+                }]
+            },
+            templateUrl: '/staffim-form/simpleSelect.html',
+            link: function($scope) {
+                $scope.to.options = _.map($scope.to.options, function(item) {
+                    if (!_.isObject(item)) {
+                        return {
+                            id: item,
+                            name: item
+                        };
+                    }
+
+                    return item;
+                });
+
+                $scope.getViewValue = function() {
+                    var value = _.has($scope.model, $scope.options.key) ? $scope.model[$scope.options.key] : null;
+                    value = _.find($scope.to.options, function(option) {
+                        return option.id === value;
+                    });
+
+                    return value ? value.name : value;
+                };
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select',
             defaultOptions: {
                 className: 'form-group',
@@ -1092,6 +1139,15 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    oi-select-options=\"selectOptions\"\n" +
     "    >\n" +
     "</oi-select>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/simpleSelect.html',
+    "<div class=\"select\">\n" +
+    "    <select class=\"form-control\" ng-model=\"model[options.key]\">\n" +
+    "        <option ng-repeat=\"option in to.options\" value=\"{{option.id}}\">{{option.name}}</option>\n" +
+    "    </select>\n" +
+    "</div>\n"
   );
 
 
