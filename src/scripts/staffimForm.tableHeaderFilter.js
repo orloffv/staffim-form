@@ -11,7 +11,7 @@
                     formInstance: '=formInstance',
                     mapper: '='
                 },
-                controller: ['$scope', '$element', '$timeout', function($scope, $element, $timeout) {
+                controller: ['$scope', '$element', function($scope, $element) {
                     $scope.options = $scope.formInstance.getFormOptions();
                     $scope.model = $scope.formInstance.getFormModel();
                     $scope.fields = $scope.formInstance.getFields();

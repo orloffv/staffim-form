@@ -508,6 +508,7 @@
         service.prototype.submit = submit;
         service.prototype.save = save;
         service.prototype.patchRemove = patchRemove;
+        service.prototype.updateFields = updateFields;
 
         function setFormOptions(formOptions) {
             this.formOptions = formOptions;
@@ -643,20 +644,18 @@
         function setModal(modal) {
             this.modal = modal;
 
-            if (_.size(this.fields)) {
-                _.each(this.fields, function(field) {
-                    if (_.has(field, 'templateOptions') && _.has(field.templateOptions, 'focus') && field.templateOptions.focus) {
-                        delete field.templateOptions.focus;
+            updateFields(function(field) {
+                if (_.has(field, 'templateOptions') && _.has(field.templateOptions, 'focus') && field.templateOptions.focus) {
+                    delete field.templateOptions.focus;
 
-                        if (!_.has(field, 'expressionProperties')) {
-                            field.expressionProperties = {};
-                        }
-                        field.expressionProperties['templateOptions.focus'] = function() {
-                            return true;
-                        };
+                    if (!_.has(field, 'expressionProperties')) {
+                        field.expressionProperties = {};
                     }
-                });
-            }
+                    field.expressionProperties['templateOptions.focus'] = function() {
+                        return true;
+                    };
+                }
+            });
 
             return this;
         }
@@ -677,6 +676,20 @@
 
         function getFormOptions() {
             return this.formOptions;
+        }
+
+        function updateFields(callback) {
+            if (_.size(this.fields)) {
+                _.each(this.fields, function(field) {
+                    if (_.has(field, 'fieldGroup')) {
+                        _.each(field.fieldGroup, function(fieldGroupField) {
+                            fieldGroupField = callback(fieldGroupField);
+                        });
+                    } else {
+                        field = callback(field);
+                    }
+                });
+            }
         }
 
         function getPatchFields() {
@@ -856,7 +869,7 @@
                     formInstance: '=formInstance',
                     mapper: '='
                 },
-                controller: ['$scope', '$element', '$timeout', function($scope, $element, $timeout) {
+                controller: ['$scope', '$element', function($scope, $element) {
                     $scope.options = $scope.formInstance.getFormOptions();
                     $scope.model = $scope.formInstance.getFormModel();
                     $scope.fields = $scope.formInstance.getFields();
