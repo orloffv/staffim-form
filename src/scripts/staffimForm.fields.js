@@ -332,6 +332,13 @@
             }
         ]);
 
+        formlyConfig.setWrapper([
+            {
+                name: 'inlineEditLast',
+                templateUrl: '/staffim-form/inlineEditLastWrapper.html'
+            }
+        ]);
+
         var attributes = [
             'date-disabled',
             'custom-class',

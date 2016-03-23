@@ -367,6 +367,13 @@
             }
         ]);
 
+        formlyConfig.setWrapper([
+            {
+                name: 'inlineEditLast',
+                templateUrl: '/staffim-form/inlineEditLastWrapper.html'
+            }
+        ]);
+
         var attributes = [
             'date-disabled',
             'custom-class',
@@ -1040,6 +1047,13 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    <div class=\"pmbb-body p-l-30\">\n" +
     "        <formly-transclude></formly-transclude>\n" +
     "    </div>\n" +
+    "</div>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/inlineEditLastWrapper.html',
+    "<div ng-class=\"{'join-user': formState.edit !== false}\">\n" +
+    "    <formly-transclude></formly-transclude>\n" +
     "</div>\n"
   );
 
