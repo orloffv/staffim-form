@@ -1147,6 +1147,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "    <select class=\"form-control\" ng-model=\"model[options.key]\">\n" +
     "        <option ng-repeat=\"option in to.options\" value=\"{{option.id}}\">{{option.name}}</option>\n" +
     "    </select>\n" +
+    "    <label class=\"line-focus\"></label>\n" +
     "</div>\n"
   );
 
