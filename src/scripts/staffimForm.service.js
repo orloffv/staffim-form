@@ -72,6 +72,17 @@
 
         function destroy() {
             this.removeBackup();
+            delete this.fields;
+            delete this.formOptions;
+            delete this.formModel;
+            delete this.initBackupData;
+            delete this.patchFields;
+            delete this.patchParams;
+            delete this.errorMessage;
+            delete this.successMessage;
+            delete this.originalModel;
+            delete this.form;
+            delete this.tableParams;
         }
 
         function setEnableBackup(enabled) {
@@ -137,7 +148,7 @@
 
         function getBackupKey(fields) {
             fields = fields || angular.copy(this.getPatchFields());
-            if (this.formModel.id) {
+            if (_.has(this.formModel, 'id')) {
                 fields.push(this.formModel.id);
             }
             if (this.formModel.modelName) {
