@@ -505,8 +505,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['toastr', '$q', 'SRErrorTranslator'];
-    function SFService(toastr, $q, SRErrorTranslator) {
+    SFService.$inject = ['toastr', '$q', 'SRErrorTranslator', '$timeout', 'SUStorage'];
+    function SFService(toastr, $q, SRErrorTranslator, $timeout, SUStorage) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -529,6 +529,9 @@
             };
             this.status = 'draft';
             this.viewAfterSave = true;
+            this.enabledBackup = false;
+            this.backupInterval = null;
+            this.initBackupData = {};
 
             return this;
         };
@@ -563,6 +566,89 @@
         service.prototype.save = save;
         service.prototype.patchRemove = patchRemove;
         service.prototype.updateFields = updateFields;
+        service.prototype.setEnableBackup = setEnableBackup;
+        service.prototype.backup = backup;
+        service.prototype.getBackupKey = getBackupKey;
+        service.prototype.removeBackup = removeBackup;
+        service.prototype.restoreBackup = restoreBackup;
+        service.prototype.destroy = destroy;
+
+        function destroy() {
+            this.removeBackup();
+        }
+
+        function setEnableBackup(enabled) {
+            this.enabledBackup = enabled;
+
+            this.removeBackup();
+
+            if (enabled) {
+                this.backup();
+            }
+
+            return this;
+        }
+
+        function backup() {
+            if (this.status !== 'draft' || !this.enabledBackup) {
+                return false;
+            }
+
+            var fields = this.getPatchFields();
+            if (_.size(fields)) {
+                var data = {};
+                if (this.formModel.$getData) {
+                    data = angular.copy(_.pick(this.formModel.$getData(), fields));
+                } else {
+                    data = angular.copy(_.pick(this.formModel, fields));
+                }
+                var key = this.getBackupKey();
+                if (_.isUndefined(this.initBackupData[key])) {
+                    this.initBackupData[key] = data;
+                } else if (!_.isEqual(this.initBackupData[key], data)) {
+                    SUStorage.set(key, data);
+                }
+            }
+
+            if (this.backupInterval) {
+                $timeout.cancel(this.backupInterval);
+            }
+            this.backupInterval = $timeout(_.bind(this.backup, this), 5000);
+        }
+
+        function restoreBackup() {
+            if (!this.enabledBackup) {
+                return false;
+            }
+
+            var backupData = SUStorage.get(this.getBackupKey());
+            if (backupData) {
+                _.deepExtend(this.formModel, backupData);
+            }
+        }
+
+        function removeBackup() {
+            if (!this.enabledBackup) {
+                return false;
+            }
+            SUStorage.remove(this.getBackupKey());
+            if (this.backupInterval) {
+                $timeout.cancel(this.backupInterval);
+                this.backupInterval = null;
+            }
+        }
+
+        function getBackupKey(fields) {
+            fields = fields || angular.copy(this.getPatchFields());
+            if (this.formModel.id) {
+                fields.push(this.formModel.id);
+            }
+            if (this.formModel.modelName) {
+                fields.push(this.formModel.modelName);
+            }
+
+            return 'backup.' + fields.join(',');
+        }
 
         function setFormOptions(formOptions) {
             this.formOptions = formOptions;
@@ -646,6 +732,8 @@
         function setOriginalModel(originalModel) {
             this.originalModel = originalModel;
             this.formModel = _.copyModel(this.originalModel);
+            this.backup();
+            this.restoreBackup();
 
             return this;
         }
@@ -655,6 +743,8 @@
             fields.push.apply(fields, arguments);
 
             this.fields = _.flatten(fields);
+            this.backup();
+            this.restoreBackup();
 
             return this;
         }
@@ -791,6 +881,7 @@
             return this.save(patchAction)
                 .then(function(data) {
                     that.status = 'success';
+                    that.removeBackup();
                     _.copyModel(that.formModel, that.originalModel);
                     toastr.success(that.successMessage);
 
