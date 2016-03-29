@@ -1102,21 +1102,21 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/addons.html',
-    "<div ng-class=\"[{'input-group': to.addonLeft || to.addonRight}, to.inputGroupClassName]\">\n" +
+    "<div ng-class=\"::[{'input-group': to.addonLeft || to.addonRight}, to.inputGroupClassName]\">\n" +
     "    <div class=\"input-group-addon\"\n" +
-    "         ng-if=\"to.addonLeft\"\n" +
-    "         ng-style=\"{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}\"\n" +
+    "         ng-if=\"::to.addonLeft\"\n" +
+    "         ng-style=\"::{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}\"\n" +
     "         ng-click=\"to.addonLeft.onClick(options, this)\">\n" +
-    "        <i class=\"{{to.addonLeft.className}}\" ng-if=\"to.addonLeft.className\"></i>\n" +
-    "        <span ng-if=\"to.addonLeft.text\">{{to.addonLeft.text}}</span>\n" +
+    "        <i class=\"{{::to.addonLeft.className}}\" ng-if=\"::to.addonLeft.className\"></i>\n" +
+    "        <span ng-if=\"::to.addonLeft.text\">{{::to.addonLeft.text}}</span>\n" +
     "    </div>\n" +
     "    <formly-transclude></formly-transclude>\n" +
     "    <div class=\"input-group-addon\"\n" +
-    "         ng-if=\"to.addonRight\"\n" +
-    "         ng-style=\"{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}\"\n" +
+    "         ng-if=\"::to.addonRight\"\n" +
+    "         ng-style=\"::{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}\"\n" +
     "         ng-click=\"to.addonRight.onClick(options, this)\">\n" +
-    "        <i class=\"{{to.addonRight.className}}\" ng-if=\"to.addonRight.className\"></i>\n" +
-    "        <span ng-if=\"to.addonRight.text\">{{to.addonRight.text}}</span>\n" +
+    "        <i class=\"{{::to.addonRight.className}}\" ng-if=\"::to.addonRight.className\"></i>\n" +
+    "        <span ng-if=\"::to.addonRight.text\">{{::to.addonRight.text}}</span>\n" +
     "    </div>\n" +
     "</div>\n"
   );
