@@ -63,8 +63,8 @@
         formlyValidationMessages.addStringMessage('require', 'Обязательно для заполнения');
     }
 
-    materialFields.$inject = ['formlyConfig', 'SUFormatterDate', '$q', 'moment', 'SUFormatterWeek'];
-    function materialFields(formlyConfig, SUFormatterDate, $q, moment, SUFormatterWeek) {
+    materialFields.$inject = ['formlyConfig', 'SUFormatterDate', '$q', 'moment', 'SUFormatterWeek', '$timeout'];
+    function materialFields(formlyConfig, SUFormatterDate, $q, moment, SUFormatterWeek, $timeout) {
         formlyConfig.setType({
             name: 'input',
             templateUrl: '/staffim-form/input.html',
@@ -419,14 +419,17 @@
             ngModelAttrs[_.camelcase(binding)] = {bound: binding};
         });
 
-        var datePickerTemplateOptions = {
-            datepickerOptions: {
-                startingDay: 1,
-                showWeeks: false,
-                format: 'dd.MM.yyyy',
-                formatDayTitle: 'MMM yyyy',
-                initDate: new Date()
-            }
+        function datePickerTemplateOptions(showWeeks) {
+            return {
+                datepickerOptions: {
+                    startingDay: 1,
+                    showWeeks: !!showWeeks,
+                    format: 'dd.MM.yyyy',
+                    formatDayTitle: 'MMM yyyy',
+                    initDate: new Date(),
+                    customClass2: 'week'
+                }
+            };
         };
 
         var getDatepickerController = function() {
@@ -448,7 +451,7 @@
             templateUrl: '/staffim-form/datepicker.html',
             defaultOptions: {
                 ngModelAttrs: ngModelAttrs,
-                templateOptions: datePickerTemplateOptions,
+                templateOptions: datePickerTemplateOptions(),
                 parsers: [function(value) {
                     return SUFormatterDate.parser(value);
                 }],
@@ -474,7 +477,7 @@
             templateUrl: '/staffim-form/datepicker.html',
             defaultOptions: {
                 ngModelAttrs: ngModelAttrs,
-                templateOptions: datePickerTemplateOptions,
+                templateOptions: datePickerTemplateOptions(true),
                 parsers: [function(value) {
                     return SUFormatterWeek.parser(value);
                 }],
@@ -487,10 +490,11 @@
                 $scope.$watch(function($scope) {
                     return $scope.model[$scope.options.key];
                 }, function(newVal) {
-                    $element.find('.dp-table').addClass('dpt-week');
                     if (newVal) {
-                        var date = moment(newVal);
-                        $element.find('[uib-datepicker-popup]').val(date.day(1).format('DD-MM-YYYY') + ' - ' + date.day(7).format('DD-MM-YYYY'));
+                        $timeout(function() {
+                            var date = moment(newVal);
+                            $element.find('[uib-datepicker-popup]').val(date.day(1).format('DD-MM-YYYY') + ' - ' + date.day(7).format('DD-MM-YYYY'));
+                        });
                     }
                 });
             }
