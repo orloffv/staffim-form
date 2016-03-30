@@ -17,13 +17,17 @@
         });
 
         formlyConfig.templateManipulators.preWrapper.push(function(template, options) {
-            if (!options.templateOptions.addonLeft && !options.templateOptions.addonRight) {
+            if (options.templateOptions.addonLeft) {
+                return $http.get('/staffim-form/addonLeft.html', {cache: $templateCache}).then(function(response) {
+                    return response.data.replace('<formly-transclude></formly-transclude>', template);
+                });
+            } else if (options.templateOptions.addonRight) {
+                return $http.get('/staffim-form/addonRight.html', {cache: $templateCache}).then(function(response) {
+                    return response.data.replace('<formly-transclude></formly-transclude>', template);
+                });
+            } else {
                 return template;
             }
-
-            return $http.get('/staffim-form/addons.html', {cache: $templateCache}).then(function(response) {
-                return response.data.replace('<formly-transclude></formly-transclude>', template);
-            });
         });
     }
 })();

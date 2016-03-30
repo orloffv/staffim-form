@@ -1,0 +1,9 @@
+<div class="input-group" ng-class="::to.inputGroupClassName">
+    <div class="input-group-addon"
+         ng-style="::{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"
+         ng-click="to.addonLeft.onClick(options, this)">
+        <i class="{{::to.addonLeft.className}}" ng-if="::to.addonLeft.className"></i>
+        <span ng-if="::to.addonLeft.text">{{::to.addonLeft.text}}</span>
+    </div>
+    <formly-transclude></formly-transclude>
+</div>
