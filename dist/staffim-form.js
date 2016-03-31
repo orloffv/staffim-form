@@ -1224,7 +1224,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/materialSimpleWrapper.html',
-    "<div class=\"fg-line\">\n" +
+    "<div class=\"fg-line\" ng-if=\"::(formState.edit !== false)\">\n" +
     "    <formly-transclude></formly-transclude>\n" +
     "</div>\n"
   );
