@@ -5,7 +5,11 @@
     wrapperMaterial.$inject = ['formlyConfig', '$templateCache', '$http'];
     function wrapperMaterial(formlyConfig, $templateCache, $http) {
         formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
-            if (scope.formState && scope.formState.horizontal) {
+            if (scope.formState && scope.formState.simple) {
+                return $http.get('/staffim-form/materialSimpleWrapper.html', {cache: $templateCache}).then(function(response) {
+                    return response.data.replace('<formly-transclude></formly-transclude>', template);
+                });
+            } else if (scope.formState && scope.formState.horizontal) {
                 return $http.get('/staffim-form/materialHorizontalWrapper.html', {cache: $templateCache}).then(function(response) {
                     return response.data.replace('<formly-transclude></formly-transclude>', template);
                 });

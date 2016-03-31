@@ -41,6 +41,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setSimpleOptions = setSimpleOptions;
         service.prototype.setViewWithoutClassOptions = setViewWithoutClassOptions;
         service.prototype.setEditVerticalOptions = setEditVerticalOptions;
         service.prototype.setEditOptions = setEditOptions;
@@ -175,6 +176,16 @@
                 formState: {
                     edit: false,
                     label: false
+                }
+            });
+
+            return this;
+        }
+
+        function setSimpleOptions() {
+            this.setFormOptions({
+                formState: {
+                    simple: true
                 }
             });
 

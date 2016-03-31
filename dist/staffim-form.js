@@ -10,7 +10,11 @@
     wrapperMaterial.$inject = ['formlyConfig', '$templateCache', '$http'];
     function wrapperMaterial(formlyConfig, $templateCache, $http) {
         formlyConfig.templateManipulators.preWrapper.push(function(template, options, scope) {
-            if (scope.formState && scope.formState.horizontal) {
+            if (scope.formState && scope.formState.simple) {
+                return $http.get('/staffim-form/materialSimpleWrapper.html', {cache: $templateCache}).then(function(response) {
+                    return response.data.replace('<formly-transclude></formly-transclude>', template);
+                });
+            } else if (scope.formState && scope.formState.horizontal) {
                 return $http.get('/staffim-form/materialHorizontalWrapper.html', {cache: $templateCache}).then(function(response) {
                     return response.data.replace('<formly-transclude></formly-transclude>', template);
                 });
@@ -552,6 +556,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setSimpleOptions = setSimpleOptions;
         service.prototype.setViewWithoutClassOptions = setViewWithoutClassOptions;
         service.prototype.setEditVerticalOptions = setEditVerticalOptions;
         service.prototype.setEditOptions = setEditOptions;
@@ -686,6 +691,16 @@
                 formState: {
                     edit: false,
                     label: false
+                }
+            });
+
+            return this;
+        }
+
+        function setSimpleOptions() {
+            this.setFormOptions({
+                formState: {
+                    simple: true
                 }
             });
 
@@ -1205,6 +1220,13 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        </small>\n" +
     "    </dd>\n" +
     "</dl>\n"
+  );
+
+
+  $templateCache.put('/staffim-form/materialSimpleWrapper.html',
+    "<div class=\"fg-line\">\n" +
+    "    <formly-transclude></formly-transclude>\n" +
+    "</div>\n"
   );
 
 
