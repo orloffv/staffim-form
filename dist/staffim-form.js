@@ -517,8 +517,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['toastr', '$q', 'SRErrorTranslator', '$timeout', 'SUStorage'];
-    function SFService(toastr, $q, SRErrorTranslator, $timeout, SUStorage) {
+    SFService.$inject = ['SUNotify', '$q', 'SRErrorTranslator', '$timeout', 'SUStorage'];
+    function SFService(SUNotify, $q, SRErrorTranslator, $timeout, SUStorage) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -917,7 +917,7 @@
                     that.status = 'success';
                     that.removeBackup();
                     _.copyModel(that.formModel, that.originalModel);
-                    toastr.success(that.successMessage);
+                    SUNotify.success(that.successMessage);
 
                     if (that.modal) {
                         that.modal.dismiss('cancel');
@@ -952,7 +952,7 @@
                 .catch(function(errorResponse) {
                     var translator = new SRErrorTranslator(errorResponse.modelName);
                     var errors = translator.parseResponse(errorResponse.$response);
-                    toastr.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
+                    SUNotify.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
 
                     return $q.reject();
                 });
