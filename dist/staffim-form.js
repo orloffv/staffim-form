@@ -176,7 +176,7 @@
             var defer = $q.defer();
 
             $scope.selectedData = _.filter($scope.selectedData, function(item) {
-                return _.indexOf(values, item.id) !== -1;
+                return _.contains(values, item.id);
             });
 
             _.each(values, function(value) {
