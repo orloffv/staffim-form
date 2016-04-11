@@ -517,8 +517,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['SUNotify', '$q', 'SRErrorTranslator', '$timeout', 'SUStorage'];
-    function SFService(SUNotify, $q, SRErrorTranslator, $timeout, SUStorage) {
+    SFService.$inject = ['SUNotify', '$q', '$timeout', 'SUStorage'];
+    function SFService(SUNotify, $q, $timeout, SUStorage) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -950,9 +950,7 @@
                     return data;
                 })
                 .catch(function(errorResponse) {
-                    var translator = new SRErrorTranslator(errorResponse.modelName);
-                    var errors = translator.parseResponse(errorResponse.$response);
-                    SUNotify.error(_.size(errors) ? _.toSentence(errors, '<br>', '<br>') : that.errorMessage);
+                    SUNotify.errorResponse(errorResponse, that.errorMessage);
 
                     return $q.reject();
                 });
