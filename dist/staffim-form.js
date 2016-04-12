@@ -517,8 +517,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['SUNotify', '$q', '$timeout', 'SUStorage'];
-    function SFService(SUNotify, $q, $timeout, SUStorage) {
+    SFService.$inject = ['SUNotify', '$q', '$timeout', 'CacheFactory'];
+    function SFService(SUNotify, $q, $timeout, CacheFactory) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -584,7 +584,22 @@
         service.prototype.getBackupKey = getBackupKey;
         service.prototype.removeBackup = removeBackup;
         service.prototype.restoreBackup = restoreBackup;
+        service.prototype.getBackupCache = getBackupCache;
         service.prototype.destroy = destroy;
+
+        function getBackupCache() {
+            if (!CacheFactory.get('formCache')) {
+                CacheFactory.createCache('formCache', {
+                    storageMode: 'localStorage',
+                    deleteOnExpire: 'aggressive',
+                    verifyIntegrity: false,
+                    recycleFreq: 60 * 1000,
+                    maxAge: 60 * 60 * 24 * 1000
+                });
+            }
+
+            return CacheFactory.get('formCache');
+        }
 
         function destroy() {
             this.removeBackup();
@@ -630,7 +645,9 @@
                 if (_.isUndefined(this.initBackupData[key])) {
                     this.initBackupData[key] = data;
                 } else if (!_.isEqual(this.initBackupData[key], data)) {
-                    SUStorage.set(key, data);
+                    if (!_.isEqual(this.getBackupCache().get(key), data)) {
+                        this.getBackupCache().put(key, data);
+                    }
                 }
             }
 
@@ -645,7 +662,7 @@
                 return false;
             }
 
-            var backupData = SUStorage.get(this.getBackupKey());
+            var backupData = this.getBackupCache().get(this.getBackupKey());
             if (backupData) {
                 _.deepExtend(this.formModel, backupData);
             }
@@ -655,7 +672,7 @@
             if (!this.enabledBackup) {
                 return false;
             }
-            SUStorage.remove(this.getBackupKey());
+            this.getBackupCache().remove(this.getBackupKey());
             if (this.backupInterval) {
                 $timeout.cancel(this.backupInterval);
                 this.backupInterval = null;
@@ -671,7 +688,7 @@
                 fields.push(this.formModel.modelName);
             }
 
-            return 'backup.' + fields.join(',');
+            return fields.join(',');
         }
 
         function setFormOptions(formOptions) {
