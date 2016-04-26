@@ -26,6 +26,9 @@
             };
             this.status = 'draft';
             this.offline = false;
+            this.offlineCache = null;
+            this.offlineCacheKey = null;
+            this.offlineCacheMaxAge = null;
             this.viewAfterSave = true;
             this.enabledBackup = false;
             this.backupInterval = null;
@@ -225,8 +228,11 @@
             return this;
         }
 
-        function setOffline() {
-            this.offline = true;
+        function setOffline(offline, offlineCache, offlineCacheKey, offlineCacheMaxAge) {
+            this.offline = offline;
+            this.offlineCache = offlineCache;
+            this.offlineCacheKey = offlineCacheKey;
+            this.offlineCacheMaxAge = offlineCacheMaxAge;
 
             return this;
         }
@@ -428,9 +434,20 @@
         }
 
         function saveOffline() {
-            this.formModel.$setPatchOriginal(this.formModel);
+            var defer = $q.defer();
+            if (this.isOffline() && this.offlineCache && this.offlineCacheKey) {
+                var cacheData = this.offlineCache.get(this.offlineCacheKey) || {};
+                _.deepExtend(cacheData, this.formModel.$getData(this.getPatchFields()));
+                this.offlineCache.put(this.offlineCacheKey, cacheData, {
+                    maxAge: this.offlineCacheMaxAge
+                });
+                this.formModel.$setPatchOriginal(this.formModel);
+                defer.resolve(this.formModel);
+            } else {
+                defer.reject();
+            }
 
-            return this.formModel;
+            return defer.promise;
         }
 
         function submit(patchAction) {
