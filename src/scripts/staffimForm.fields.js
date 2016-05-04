@@ -190,6 +190,8 @@
                         return true;
                     } else if (value === 'false') {
                         return false;
+                    } else if (value === 'null') {
+                        return null;
                     }
 
                     return value;
@@ -199,6 +201,8 @@
                         return 'true';
                     } else if (value === false) {
                         return 'false';
+                    } else if (value === null) {
+                        return 'null';
                     }
 
                     return value;
