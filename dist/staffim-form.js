@@ -533,6 +533,7 @@
             this.successMessage = null;
             this.errorMessage = null;
             this.patchFields = [];
+            this.additionalPatchFields = [];
             this.patchParams = {};
             this.modal = null;
             this.saveFunc = null;
@@ -570,6 +571,7 @@
         service.prototype.setEditOptions = setEditOptions;
         service.prototype.setTableParams = setTableParams;
         service.prototype.setPatchFields = setPatchFields;
+        service.prototype.setAdditionalPatchFields = setAdditionalPatchFields;
         service.prototype.setOnSuccess = setOnSuccess;
         service.prototype.setOnBeforeSave = setOnBeforeSave;
         service.prototype.setPatchParams = setPatchParams;
@@ -854,6 +856,12 @@
             return this;
         }
 
+        function setAdditionalPatchFields(additionalPatchFields) {
+            this.additionalPatchFields = additionalPatchFields;
+
+            return this;
+        }
+
         function setPatchParams(patchParams) {
             this.patchParams = patchParams;
 
@@ -928,7 +936,7 @@
                     return _.first(_.words(field, '.'));
                 });
 
-                return fields;
+                return _.union(fields, this.additionalPatchFields);
             }
 
             return this.patchFields;
