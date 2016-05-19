@@ -678,7 +678,7 @@
 
             var backupData = this.getBackupCache().get(this.getBackupKey());
             if (backupData) {
-                _.deepExtend(this.formModel, backupData);
+                this.formModel.$decode(backupData);
             }
         }
 
