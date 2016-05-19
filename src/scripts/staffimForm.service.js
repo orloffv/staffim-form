@@ -46,6 +46,7 @@
         service.prototype.setModal = setModal;
         service.prototype.setTableOptions = setTableOptions;
         service.prototype.setViewOptions = setViewOptions;
+        service.prototype.setFormStateOptions = setFormStateOptions;
         service.prototype.setSimpleOptions = setSimpleOptions;
         service.prototype.setViewWithoutClassOptions = setViewWithoutClassOptions;
         service.prototype.setEditVerticalOptions = setEditVerticalOptions;
@@ -191,6 +192,16 @@
             return this;
         }
 
+        function setFormStateOptions(formStateOptions) {
+            formStateOptions.offline = this.offline;
+
+            this.setFormOptions({
+                formState: formStateOptions
+            });
+
+            return this;
+        }
+
         function setSaveFunction(func) {
             this.saveFunc = func;
 
@@ -198,21 +209,17 @@
         }
 
         function setTableOptions() {
-            this.setFormOptions({
-                formState: {
-                    edit: false,
-                    label: false
-                }
+            this.setFormStateOptions({
+                edit: false,
+                label: false
             });
 
             return this;
         }
 
         function setSimpleOptions() {
-            this.setFormOptions({
-                formState: {
-                    simple: true
-                }
+            this.setFormStateOptions({
+                simple: true
             });
 
             return this;
@@ -244,44 +251,36 @@
         }
 
         function setViewOptions() {
-            this.setFormOptions({
-                formState: {
-                    edit: false,
-                    horizontal: true
-                }
+            this.setFormStateOptions({
+                edit: false,
+                horizontal: true
             });
 
             return this;
         }
 
         function setViewWithoutClassOptions() {
-            this.setFormOptions({
-                formState: {
-                    edit: false,
-                    horizontal: true,
-                    horizontalClass: false
-                }
+            this.setFormStateOptions({
+                edit: false,
+                horizontal: true,
+                horizontalClass: false
             });
 
             return this;
         }
 
         function setEditOptions() {
-            this.setFormOptions({
-                formState: {
-                    edit: true,
-                    horizontal: true
-                }
+            this.setFormStateOptions({
+                edit: true,
+                horizontal: true
             });
 
             return this;
         }
 
         function setEditVerticalOptions() {
-            this.setFormOptions({
-                formState: {
-                    edit: true
-                }
+            this.setFormStateOptions({
+                edit: true
             });
 
             return this;
