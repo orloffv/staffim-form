@@ -80,6 +80,7 @@
         service.prototype.destroy = destroy;
         service.prototype.setOffline = setOffline;
         service.prototype.isOffline = isOffline;
+        service.prototype.isOnline = isOnline;
         service.prototype.saveOffline = saveOffline;
 
         function getBackupCache() {
@@ -248,6 +249,10 @@
 
         function isOffline() {
             return !!this.offline;
+        }
+
+        function isOnline() {
+            return !this.offline;
         }
 
         function setViewOptions() {
