@@ -160,6 +160,7 @@
 
             var backupData = this.getBackupCache().get(this.getBackupKey());
             if (backupData) {
+                this.formModel.$patchOriginalCustom = true;
                 this.formModel.$decode(backupData);
             }
         }
