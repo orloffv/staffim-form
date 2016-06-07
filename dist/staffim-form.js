@@ -1003,7 +1003,7 @@
                     if (_.isFunction(that.onSuccess)) {
                         var onSuccess = that.onSuccess(data);
 
-                        (_.has(onSuccess, 'then') ? onSuccess : $q.when(onSuccess))
+                        (_.isObject(onSuccess) && _.isFunction(onSuccess.then) ? onSuccess : $q.when(onSuccess))
                             .finally(function() {
                                 if (that.formOptions) {
                                     if (that.formOptions.updateInitialValue) {
@@ -1038,10 +1038,13 @@
                 var onBeforeSave = this.onBeforeSave(this.formModel);
                 var that = this;
 
-                return (_.has(onBeforeSave, 'then') ? onBeforeSave : $q.when(onBeforeSave))
-                    .then(function() {
+                return (_.isObject(onBeforeSave) && _.isFunction(onBeforeSave.then) ? onBeforeSave : $q.when(onBeforeSave))
+                    .then(
+                    function() {
                         return that.submit();
-                    });
+                    }
+                );
+
             }
 
             return this.submit();
