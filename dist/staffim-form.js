@@ -1342,8 +1342,8 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/number.html',
-    "<number-input ng-class=\"to.className\" ng-model=\"model[options.key]\" options=\"numberOptions\"></number-input>\n" +
-    "<label class=\"control-label\">{{to.labelInfo}}</label>\n"
+    "<label class=\"control-label\">{{to.labelInfo}}</label>\n" +
+    "<number-input ng-class=\"to.className\" ng-model=\"model[options.key]\" options=\"numberOptions\"></number-input>\n"
   );
 
 
