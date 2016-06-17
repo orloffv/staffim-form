@@ -1,6 +1,6 @@
 (function(){
     angular.module('staffimForm', ['staffimUtils', 'formly', 'ngSanitize', 'oi.select']);
-    angular.module('staffimForm.wysiwyg', ['formly', 'summernote']);
+    angular.module('staffimForm.wysiwyg', ['formly']);
 })();
 
 (function(){
@@ -1469,7 +1469,9 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/wysiwyg.html',
-    "<summernote ng-model=\"model[options.key]\" config=\"summernoteOptions\"></summernote>\n"
+    "<div oc-lazy-load=\"['/vendors/summernote/dist/summernote.js', '/vendors/angular-summernote/dist/angular-summernote.js', '/vendors/summernote/dist/summernote.css']\">\n" +
+    "    <summernote ng-model=\"model[options.key]\" config=\"summernoteOptions\"></summernote>\n" +
+    "</div>\n"
   );
 
 }]);
