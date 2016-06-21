@@ -521,8 +521,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['SUNotify', '$q', '$timeout', 'CacheFactory'];
-    function SFService(SUNotify, $q, $timeout, CacheFactory) {
+    SFService.$inject = ['SUNotify', '$q', '$timeout', 'CacheFactory', 'CONFIG'];
+    function SFService(SUNotify, $q, $timeout, CacheFactory, CONFIG) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -608,8 +608,8 @@
                     storageMode: 'localStorage',
                     deleteOnExpire: 'aggressive',
                     verifyIntegrity: false,
-                    recycleFreq: 60 * 1000,
-                    maxAge: 60 * 60 * 24 * 1000
+                    recycleFreq: CONFIG.cacheRecycleFreq,
+                    maxAge: CONFIG.formCacheAge
                 });
             }
 
