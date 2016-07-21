@@ -521,8 +521,8 @@
     angular.module('staffimForm')
         .factory('SFService', SFService);
 
-    SFService.$inject = ['SUNotify', '$q', '$timeout', 'CacheFactory', 'CONFIG'];
-    function SFService(SUNotify, $q, $timeout, CacheFactory, CONFIG) {
+    SFService.$inject = ['SUNotify', '$q', '$timeout', '$injector', 'CONFIG'];
+    function SFService(SUNotify, $q, $timeout, $injector, CONFIG) {
         /* jshint validthis: true */
         var service = function() {
             this.formOptions = {};
@@ -603,6 +603,7 @@
         service.prototype.saveOffline = saveOffline;
 
         function getBackupCache() {
+            var CacheFactory = $injector.get('CacheFactory');
             if (!CacheFactory.get('formCache')) {
                 CacheFactory.createCache('formCache', {
                     storageMode: 'localStorage',
