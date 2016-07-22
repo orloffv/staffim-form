@@ -1,6 +1,6 @@
 (function(){
     angular.module('staffimForm')
-        .directive('sfViewEdit', function() {
+        .directive('sfViewEdit', function($compile) {
             return {
                 templateUrl: '/staffim-form/viewEdit.html',
                 restrict: 'E',
@@ -10,7 +10,7 @@
                     formInstance: '=',
                     allowEdit: '@'
                 },
-                link: function($scope) {
+                link: function($scope, $el) {
                     $scope.options = $scope.formInstance.getFormOptions();
                     $scope.model = $scope.formInstance.getFormModel();
                     $scope.fields = $scope.formInstance.getFields();
@@ -31,6 +31,11 @@
                         }
 
                         $scope.formInstance.setFields($scope.fields);
+                    }
+
+                    var element = $($el).find('ul.actions');
+                    if (!_.isUndefined($scope.allowEdit)) {
+                        element.replaceWith($compile(element.clone().attr('permission-only', $scope.allowEdit))($scope));
                     }
                 }
             };

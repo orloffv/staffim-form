@@ -1063,7 +1063,7 @@
 
 (function(){
     angular.module('staffimForm')
-        .directive('sfViewEdit', function() {
+        .directive('sfViewEdit', function($compile) {
             return {
                 templateUrl: '/staffim-form/viewEdit.html',
                 restrict: 'E',
@@ -1073,7 +1073,7 @@
                     formInstance: '=',
                     allowEdit: '@'
                 },
-                link: function($scope) {
+                link: function($scope, $el) {
                     $scope.options = $scope.formInstance.getFormOptions();
                     $scope.model = $scope.formInstance.getFormModel();
                     $scope.fields = $scope.formInstance.getFields();
@@ -1094,6 +1094,11 @@
                         }
 
                         $scope.formInstance.setFields($scope.fields);
+                    }
+
+                    var element = $($el).find('ul.actions');
+                    if (!_.isUndefined($scope.allowEdit)) {
+                        element.replaceWith($compile(element.clone().attr('permission-only', $scope.allowEdit))($scope));
                     }
                 }
             };
@@ -1439,7 +1444,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "<div class=\"pmb-block\">\n" +
     "    <div class=\"pmbb-header\">\n" +
     "        <h2><i class=\"{{iconClass}}\"></i> {{title}}</h2>\n" +
-    "        <ul class=\"actions\" ng-if=\"!options.formState.edit\" permission-only=\"{{allowEdit}}\">\n" +
+    "        <ul class=\"actions\" ng-class=\"{'hidden': options.formState.edit}\">\n" +
     "            <li class=\"dropdown\" uib-dropdown>\n" +
     "                <a href=\"#\" uib-dropdown-toggle>\n" +
     "                    <i class=\"zmdi zmdi-more-vert\"></i>\n" +
