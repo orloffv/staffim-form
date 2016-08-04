@@ -304,6 +304,18 @@
         });
 
         formlyConfig.setType({
+            name: 'select-multiple',
+            extends: 'select',
+            defaultOptions: {
+                ngModelAttrs: {
+                    'true': {
+                        value: 'multiple'
+                    }
+                }
+            }
+        });
+
+        formlyConfig.setType({
             name: 'select-multiple-async-search',
             defaultOptions: {
                 className: 'form-group',
