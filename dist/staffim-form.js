@@ -565,6 +565,7 @@
             this.enabledBackup = false;
             this.backupInterval = null;
             this.initBackupData = {};
+            this.id = _.uniqueId('SFService');
 
             return this;
         };
