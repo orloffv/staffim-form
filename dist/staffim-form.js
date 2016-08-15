@@ -1309,7 +1309,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
     "        </span>\n" +
     "    </dt>\n" +
     "    <dd>\n" +
-    "        <div ng-class=\"{'fg-line': formState.edit !== false}\">\n" +
+    "        <div ng-class=\"{'fg-line': (formState.edit !== false && to.noFgLine !== true)}\">\n" +
     "            <div ng-if=\"formState.edit !== false && to.editView !== true\">\n" +
     "                <formly-transclude></formly-transclude>\n" +
     "            </div>\n" +
@@ -1328,7 +1328,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('/staffim-form/materialSimpleWrapper.html',
-    "<div class=\"fg-line\" ng-if=\"::(formState.edit !== false)\">\n" +
+    "<div ng-class=\"{'fg-line': (formState.edit !== false && to.noFgLine !== true)}\">\n" +
     "    <formly-transclude></formly-transclude>\n" +
     "</div>\n"
   );
@@ -1336,7 +1336,7 @@ angular.module('staffimForm').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('/staffim-form/materialWrapper.html',
     "<div ng-class=\"[{'has-error': showError}]\" ng-if=\"to.onlyView !== true || formState.edit === false\">\n" +
-    "    <div class=\"fg-line\">\n" +
+    "    <div ng-class=\"{'fg-line': to.noFgLine !== true}\">\n" +
     "        <label class=\"control-label\" for=\"{{id}}\" ng-if=\"to.label && formState.label !== false\">\n" +
     "            {{to.label}}\n" +
     "            <span ng-if=\"!to.required && formState.edit !== false && !to.hideRequired\">\n" +

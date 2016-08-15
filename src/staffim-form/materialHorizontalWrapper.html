@@ -8,7 +8,7 @@
         </span>
     </dt>
     <dd>
-        <div ng-class="{'fg-line': formState.edit !== false}">
+        <div ng-class="{'fg-line': (formState.edit !== false && to.noFgLine !== true)}">
             <div ng-if="formState.edit !== false && to.editView !== true">
                 <formly-transclude></formly-transclude>
             </div>
